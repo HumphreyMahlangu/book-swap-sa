@@ -45,6 +45,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-primary-dark: var(--primary-dark);
+  --color-brand-light: var(--brand-light);
+  --color-success: var(--success);
   --color-ring-offset-background: var(--background);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
