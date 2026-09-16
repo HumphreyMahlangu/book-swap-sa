@@ -11,9 +11,15 @@ export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
       { title: "Home — SecondHand Textbook Swap" },
-      { name: "description", content: "Your campus textbook marketplace dashboard: newest listings, swaps and orders." },
+      {
+        name: "description",
+        content: "Your campus textbook marketplace dashboard: newest listings, swaps and orders.",
+      },
       { property: "og:title", content: "Home — SecondHand Textbook Swap" },
-      { property: "og:description", content: "Newest second-hand textbooks listed by students on your campus." },
+      {
+        property: "og:description",
+        content: "Newest second-hand textbooks listed by students on your campus.",
+      },
     ],
   }),
   component: () => (
@@ -26,9 +32,7 @@ export const Route = createFileRoute("/home")({
 function HomePage() {
   const { user, data } = useApp();
   const active = data.listings.filter((l) => l.status === "active");
-  const recent = [...active]
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-    .slice(0, 6);
+  const recent = [...active].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 6);
   const swappable = active.filter((l) => l.listingType !== "sell").slice(0, 3);
   const myOrders = data.orders.filter((o) => o.buyerId === user?.id);
 
@@ -49,8 +53,18 @@ function HomePage() {
       <div className="grid gap-3 sm:grid-cols-3">
         {[
           { to: "/browse", label: "Browse books", icon: Search, value: `${active.length} listed` },
-          { to: "/swaps", label: "Swap requests", icon: Repeat2, value: `${data.swaps.length} total` },
-          { to: "/orders", label: "My orders", icon: ShoppingBag, value: `${myOrders.length} orders` },
+          {
+            to: "/swaps",
+            label: "Swap requests",
+            icon: Repeat2,
+            value: `${data.swaps.length} total`,
+          },
+          {
+            to: "/orders",
+            label: "My orders",
+            icon: ShoppingBag,
+            value: `${myOrders.length} orders`,
+          },
         ].map((card) => (
           <Link
             key={card.to}
@@ -101,7 +115,14 @@ function HomePage() {
             <Link
               key={c}
               to="/browse"
-              search={{ q: "", category: c, condition: "all", campus: "all", type: "all", sort: "newest" }}
+              search={{
+                q: "",
+                category: c,
+                condition: "all",
+                campus: "all",
+                type: "all",
+                sort: "newest",
+              }}
               className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-primary-dark transition hover:bg-secondary"
             >
               {c}

@@ -10,7 +10,10 @@ export const Route = createFileRoute("/listings/$id/edit")({
   head: () => ({
     meta: [
       { title: "Edit listing — SecondHand Textbook Swap" },
-      { name: "description", content: "Update the price, condition or details of your textbook listing." },
+      {
+        name: "description",
+        content: "Update the price, condition or details of your textbook listing.",
+      },
       { property: "og:title", content: "Edit listing — SecondHand Textbook Swap" },
       { property: "og:description", content: "Change your textbook listing details at any time." },
     ],

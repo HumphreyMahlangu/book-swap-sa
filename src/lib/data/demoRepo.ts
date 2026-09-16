@@ -85,7 +85,8 @@ export const demoRepo: Repo = {
     const creds = readCreds();
     if (!user) throw new Error("No account found with that student email.");
     const expected = creds[normalised] ?? (normalised === DEMO_EMAIL ? DEMO_PASSWORD : undefined);
-    if (!expected || expected !== password) throw new Error("Incorrect password. Please try again.");
+    if (!expected || expected !== password)
+      throw new Error("Incorrect password. Please try again.");
     localStorage.setItem(SESSION_KEY, user.id);
     return user;
   },
@@ -109,9 +110,7 @@ export const demoRepo: Repo = {
     const db = readDb();
     const list = db[collection] as Record<string, unknown>[];
     const id = keyOf(collection, item as unknown as Record<string, unknown>);
-    const index = list.findIndex(
-      (existing) => keyOf(collection, existing) === id,
-    );
+    const index = list.findIndex((existing) => keyOf(collection, existing) === id);
     if (index >= 0) list[index] = item as unknown as Record<string, unknown>;
     else list.push(item as unknown as Record<string, unknown>);
     writeDb(db);
@@ -120,9 +119,7 @@ export const demoRepo: Repo = {
   async remove(collection, id) {
     const db = readDb();
     const list = db[collection] as Record<string, unknown>[];
-    db[collection] = list.filter(
-      (existing) => keyOf(collection, existing) !== id,
-    ) as never;
+    db[collection] = list.filter((existing) => keyOf(collection, existing) !== id) as never;
     writeDb(db);
   },
 

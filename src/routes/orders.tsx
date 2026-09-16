@@ -11,9 +11,15 @@ export const Route = createFileRoute("/orders")({
   head: () => ({
     meta: [
       { title: "My orders — SecondHand Textbook Swap" },
-      { name: "description", content: "Track your active, completed and cancelled textbook orders." },
+      {
+        name: "description",
+        content: "Track your active, completed and cancelled textbook orders.",
+      },
       { property: "og:title", content: "My orders — SecondHand Textbook Swap" },
-      { property: "og:description", content: "Track collection details and status for every textbook order." },
+      {
+        property: "og:description",
+        content: "Track collection details and status for every textbook order.",
+      },
     ],
   }),
   component: () => (
@@ -61,7 +67,10 @@ function OrdersPage() {
 
   return (
     <>
-      <PageHeader title="My orders" subtitle="Every textbook you've bought through the marketplace." />
+      <PageHeader
+        title="My orders"
+        subtitle="Every textbook you've bought through the marketplace."
+      />
       <Tabs defaultValue="active">
         <TabsList className="rounded-xl">
           <TabsTrigger value="active">Active ({groups.active.length})</TabsTrigger>

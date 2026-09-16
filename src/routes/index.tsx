@@ -90,10 +90,26 @@ function Welcome() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              { icon: Wallet, title: "Student prices", body: "Save up to 70% against new textbook prices." },
-              { icon: Repeat2, title: "Swap instead", body: "Trade last semester's book for this semester's." },
-              { icon: ShieldCheck, title: "Campus safe", body: "Meet at agreed campus collection points." },
-              { icon: BookOpen, title: "Every module", body: "IT, Business, Accounting, Engineering and more." },
+              {
+                icon: Wallet,
+                title: "Student prices",
+                body: "Save up to 70% against new textbook prices.",
+              },
+              {
+                icon: Repeat2,
+                title: "Swap instead",
+                body: "Trade last semester's book for this semester's.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Campus safe",
+                body: "Meet at agreed campus collection points.",
+              },
+              {
+                icon: BookOpen,
+                title: "Every module",
+                body: "IT, Business, Accounting, Engineering and more.",
+              },
             ].map((f) => (
               <div key={f.title} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                 <f.icon className="h-6 w-6 text-accent" />

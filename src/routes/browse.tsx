@@ -37,7 +37,8 @@ export const Route = createFileRoute("/browse")({
       { title: "Browse textbooks — SecondHand Textbook Swap" },
       {
         name: "description",
-        content: "Search and filter second-hand university textbooks by module, category, condition and campus.",
+        content:
+          "Search and filter second-hand university textbooks by module, category, condition and campus.",
       },
       { property: "og:title", content: "Browse textbooks — SecondHand Textbook Swap" },
       { property: "og:description", content: "Find affordable used textbooks listed by students." },
@@ -106,7 +107,12 @@ function BrowsePage() {
             options={CONDITIONS}
             onChange={(v) => update({ condition: v })}
           />
-          <FilterSelect label="Campus" value={search.campus} options={CAMPUSES} onChange={(v) => update({ campus: v })} />
+          <FilterSelect
+            label="Campus"
+            value={search.campus}
+            options={CAMPUSES}
+            onChange={(v) => update({ campus: v })}
+          />
           <FilterSelect
             label="Type"
             value={search.type}

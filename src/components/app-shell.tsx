@@ -193,7 +193,13 @@ function BottomNav() {
   );
 }
 
-export function AppShell({ children, requireAuth = true }: { children: ReactNode; requireAuth?: boolean }) {
+export function AppShell({
+  children,
+  requireAuth = true,
+}: {
+  children: ReactNode;
+  requireAuth?: boolean;
+}) {
   const { ready, user } = useApp();
   const navigate = useNavigate();
 

@@ -1,0 +1,6 @@
+{
+  "name": "Book Swap SA",
+  "description": "A South African student book swapping and textbook marketplace app to buy, sell, and trade course books.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

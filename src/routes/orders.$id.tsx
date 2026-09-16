@@ -11,9 +11,16 @@ export const Route = createFileRoute("/orders/$id")({
   head: () => ({
     meta: [
       { title: "Order details — SecondHand Textbook Swap" },
-      { name: "description", content: "Order status timeline, seller contact and collection details for your textbook order." },
+      {
+        name: "description",
+        content:
+          "Order status timeline, seller contact and collection details for your textbook order.",
+      },
       { property: "og:title", content: "Order details — SecondHand Textbook Swap" },
-      { property: "og:description", content: "Follow your textbook order from confirmation to collection." },
+      {
+        property: "og:description",
+        content: "Follow your textbook order from confirmation to collection.",
+      },
     ],
   }),
   component: () => (
@@ -91,7 +98,10 @@ function OrderDetail() {
             <h2 className="text-sm font-semibold text-primary-dark">Textbooks</h2>
             <ul className="mt-3 space-y-3">
               {order.items.map((item) => (
-                <li key={item.listingId} className="flex items-center justify-between gap-3 text-sm">
+                <li
+                  key={item.listingId}
+                  className="flex items-center justify-between gap-3 text-sm"
+                >
                   <div>
                     <Link
                       to="/books/$id"
@@ -117,7 +127,9 @@ function OrderDetail() {
             <MapPin className="mt-0.5 h-4 w-4 shrink-0" /> {order.meetingDetails}
           </p>
           {order.note ? (
-            <p className="rounded-xl bg-secondary p-3 text-xs text-secondary-foreground">"{order.note}"</p>
+            <p className="rounded-xl bg-secondary p-3 text-xs text-secondary-foreground">
+              "{order.note}"
+            </p>
           ) : null}
           <div className="flex justify-between border-t border-border pt-3">
             <span className="text-sm text-muted-foreground">Total</span>

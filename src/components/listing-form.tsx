@@ -73,7 +73,11 @@ export function ListingForm({
         <div className="mt-3 flex items-center gap-4">
           <div className="h-28 w-20 overflow-hidden rounded-xl border border-border bg-brand-light/50">
             {values.imageUrl ? (
-              <img src={values.imageUrl} alt="Cover preview" className="h-full w-full object-cover" />
+              <img
+                src={values.imageUrl}
+                alt="Cover preview"
+                className="h-full w-full object-cover"
+              />
             ) : null}
           </div>
           <Input
@@ -95,7 +99,12 @@ export function ListingForm({
         <Field label="Author" value={values.author} onChange={(v) => set("author", v)} required />
         <Field label="Edition" value={values.edition} onChange={(v) => set("edition", v)} />
         <Field label="ISBN" value={values.isbn} onChange={(v) => set("isbn", v)} />
-        <Field label="Module code" value={values.module} onChange={(v) => set("module", v)} required />
+        <Field
+          label="Module code"
+          value={values.module}
+          onChange={(v) => set("module", v)}
+          required
+        />
         <div>
           <Label htmlFor="price">Price (ZAR)</Label>
           <Input

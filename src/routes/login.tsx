@@ -13,9 +13,15 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Sign in — SecondHand Textbook Swap" },
-      { name: "description", content: "Sign in with your student email to buy, sell and swap textbooks." },
+      {
+        name: "description",
+        content: "Sign in with your student email to buy, sell and swap textbooks.",
+      },
       { property: "og:title", content: "Sign in — SecondHand Textbook Swap" },
-      { property: "og:description", content: "Sign in to your student textbook marketplace account." },
+      {
+        property: "og:description",
+        content: "Sign in to your student textbook marketplace account.",
+      },
     ],
   }),
   component: LoginPage,
@@ -57,7 +63,13 @@ function LoginPage() {
         >
           <div className="space-y-1.5">
             <Label htmlFor="email">Student email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="password">Password</Label>
@@ -70,7 +82,10 @@ function LoginPage() {
             />
           </div>
           {error ? (
-            <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p
+              role="alert"
+              className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            >
               {error}
             </p>
           ) : null}
@@ -93,7 +108,10 @@ function LoginPage() {
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
           New here?{" "}
-          <Link to="/signup" className="font-medium text-primary underline-offset-2 hover:underline">
+          <Link
+            to="/signup"
+            className="font-medium text-primary underline-offset-2 hover:underline"
+          >
             Create an account
           </Link>
         </p>

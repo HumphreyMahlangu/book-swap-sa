@@ -29,7 +29,9 @@ export function BookCover({ listing, className = "" }: { listing: Listing; class
       className={`flex h-full w-full flex-col items-center justify-center gap-2 bg-brand-light/60 p-3 text-center ${className}`}
     >
       <BookOpen className="h-6 w-6 text-primary" />
-      <span className="line-clamp-3 text-[11px] font-medium text-primary-dark">{listing.title}</span>
+      <span className="line-clamp-3 text-[11px] font-medium text-primary-dark">
+        {listing.title}
+      </span>
     </div>
   );
 }

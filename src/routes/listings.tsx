@@ -10,7 +10,10 @@ export const Route = createFileRoute("/listings")({
   head: () => ({
     meta: [
       { title: "My listings — SecondHand Textbook Swap" },
-      { name: "description", content: "Manage the textbooks you listed: edit, mark as sold or swapped, or delete." },
+      {
+        name: "description",
+        content: "Manage the textbooks you listed: edit, mark as sold or swapped, or delete.",
+      },
       { property: "og:title", content: "My listings — SecondHand Textbook Swap" },
       { property: "og:description", content: "Edit and manage your published textbook listings." },
     ],
@@ -121,7 +124,8 @@ function MyListings() {
                   size="sm"
                   className="rounded-xl text-destructive"
                   onClick={async () => {
-                    if (!window.confirm(`Delete "${listing.title}"? This cannot be undone.`)) return;
+                    if (!window.confirm(`Delete "${listing.title}"? This cannot be undone.`))
+                      return;
                     await deleteListing(listing.id);
                     toast.success("Listing deleted");
                   }}

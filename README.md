@@ -3,6 +3,7 @@
 Build a polished, fully working full-stack school project called “SecondHand Textbook Swap”. It is a student-to-student marketplace where South African university students can buy, sell, or swap used textbooks affordably. Use the supplied prototype’s visual direction: calm blue-grey palette (#4A6E88 primary, #3A4F62 dark, #629BB6 accent, #C9D5E3 light, #F5F8FA background), rounded cards, soft shadows, clean typography, and a mobile-first app feel. Make it responsive and presentation-ready on both phone and desktop. Do not make a static mockup: every visible control and core flow must work.
 
 TECH STACK AND DATA
+
 - React + TypeScript + Vite, Tailwind CSS, shadcn/ui, Lucide icons, React Router.
 - Use the modular Firebase Web SDK: Firebase Authentication (email/password), Cloud Firestore, and Firebase Storage for textbook/profile images.
 - Put Firebase config in VITE_FIREBASE_* environment variables, create src/lib/firebase.ts, and add a clear README section explaining exactly how to connect a Firebase project, enable Email/Password auth, create Firestore and Storage, and run the app.
@@ -10,6 +11,7 @@ TECH STACK AND DATA
 - IMPORTANT FOR TOMORROW’S DEMO: if Firebase environment variables are missing, the whole app must automatically run in a clearly labelled “Demo mode” using seeded localStorage data. No blank screens and no broken features. All CRUD, cart, messages, checkout, orders, reviews, and profile edits must still work and persist after refresh in demo mode. Provide a one-click “Continue as demo student” option. When Firebase is configured, use Firebase instead of localStorage.
 
 CORE USER FLOWS
+
 1. Authentication: attractive welcome screen, sign up with full name, student number, student email, institution, password and confirm password; login; logout; validation and friendly errors; demo login. Use a protected app shell after authentication.
 2. Home: greeting for the signed-in student, notification badge, prominent search, “New books every day” hero, horizontal categories, recently listed textbooks, recommended textbooks, and quick actions.
 3. Browse/search: live search by title, author, ISBN, module/course and institution; filters for category, condition, listing type, campus and price range; sort by newest, price low-high, price high-low. Empty and loading states must look good.
@@ -24,11 +26,13 @@ CORE USER FLOWS
 12. Profile: avatar, name, student number, student email, institution/campus, member since, rating and counts for active/sold/swapped listings. Include Edit Profile, My Listings, Orders, Swap Requests, Messages, Reviews, Settings, About and Help/Contact screens. Profile editing and notification preferences must persist.
 
 INFORMATION ARCHITECTURE
+
 - Routes: /welcome, /login, /signup, /, /browse, /books/:id, /sell, /listings, /listings/:id/edit, /cart, /checkout, /orders, /orders/:id, /swaps, /messages, /messages/:conversationId, /notifications, /profile, /profile/edit, /reviews, /settings, /about, /help, and a friendly 404.
 - Use a bottom navigation on mobile: Home, Browse, Sell, Alerts, Profile. On desktop, use a compact top/side navigation while preserving the same style.
 - Keep page headers, buttons, form labels and status chips consistent. Add toast feedback for successful/failed actions. Use accessible labels, keyboard-friendly controls and sensible contrast.
 
 SEED DATA AND POLISH
+
 - Seed at least 10 realistic South African university textbooks across Information Technology, Business, Accounting, Engineering, Mathematics and Communication, with realistic ZAR prices, module codes and CPUT-style campuses. Use clearly fictional student names and no private personal data.
 - Seed a demo student, several sellers, ratings, messages, notifications, one active order and a few listing statuses so every page is convincing during a presentation.
 - Prefer reliable remote cover images from stable public image URLs, but always provide an attractive book-cover fallback so broken images never hurt the demo.
@@ -36,6 +40,7 @@ SEED DATA AND POLISH
 - Avoid lorem ipsum, dead links, placeholder buttons, real financial claims, real card inputs and unfinished TODO sections.
 
 DELIVERY QUALITY
+
 - Build the complete app now, not only a landing page or plan.
 - Ensure all routes render without errors and all core flows work end-to-end in demo mode immediately: demo login → browse/search → product → cart → demo checkout → order → notification; sell → publish → edit/mark sold; contact seller → send message; request swap → update status; edit profile → persist.
 - Keep components and data services modular so Firebase and demo repositories expose the same interface. Use strict TypeScript and fix all build/runtime errors before considering the task done.

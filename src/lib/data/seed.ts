@@ -91,7 +91,8 @@ const listings: Listing[] = [
     module: "IDAT200 — Database Applications",
     category: "Information Technology",
     condition: "Like new",
-    description: "Barely opened, bought new last year. Includes all ERD case studies used in class.",
+    description:
+      "Barely opened, bought new last year. Includes all ERD case studies used in class.",
     price: 780,
     campus: "Bellville Campus",
     listingType: "sell",
@@ -125,7 +126,8 @@ const listings: Listing[] = [
     module: "AUD300 — Auditing 3",
     category: "Accounting",
     condition: "Fair",
-    description: "Well used but complete. Some pen notes in the ethics chapters that actually help.",
+    description:
+      "Well used but complete. Some pen notes in the ethics chapters that actually help.",
     price: 430,
     campus: "Cape Town Campus",
     listingType: "swap",
@@ -314,9 +316,7 @@ export function buildSeed(): Snapshot {
         id: "o-1",
         orderNumber: "SHT-4821",
         buyerId: DEMO_USER_ID,
-        items: [
-          { listingId: "l-5", title: listings[4].title, price: 495, sellerId: "u-naledi" },
-        ],
+        items: [{ listingId: "l-5", title: listings[4].title, price: 495, sellerId: "u-naledi" }],
         total: 495,
         fulfilment: "collection",
         note: "Can meet between lectures.",
@@ -335,9 +335,7 @@ export function buildSeed(): Snapshot {
         id: "o-2",
         orderNumber: "SHT-4390",
         buyerId: DEMO_USER_ID,
-        items: [
-          { listingId: "l-11", title: listings[10].title, price: 310, sellerId: "u-aisha" },
-        ],
+        items: [{ listingId: "l-11", title: listings[10].title, price: 310, sellerId: "u-aisha" }],
         total: 310,
         fulfilment: "collection",
         payment: "Demo card payment",
@@ -381,9 +379,24 @@ export function buildSeed(): Snapshot {
         listingId: "l-1",
         updatedAt: daysAgo(1),
         messages: [
-          { id: "m-1", senderId: DEMO_USER_ID, text: "Hi Naledi, is the Deitel Java book still available?", at: daysAgo(2) },
-          { id: "m-2", senderId: "u-naledi", text: "Hi Thabo! Yes it is. I'm on the Cape Town campus most days.", at: daysAgo(2) },
-          { id: "m-3", senderId: DEMO_USER_ID, text: "Perfect. Could we meet at the library on Thursday?", at: daysAgo(1) },
+          {
+            id: "m-1",
+            senderId: DEMO_USER_ID,
+            text: "Hi Naledi, is the Deitel Java book still available?",
+            at: daysAgo(2),
+          },
+          {
+            id: "m-2",
+            senderId: "u-naledi",
+            text: "Hi Thabo! Yes it is. I'm on the Cape Town campus most days.",
+            at: daysAgo(2),
+          },
+          {
+            id: "m-3",
+            senderId: DEMO_USER_ID,
+            text: "Perfect. Could we meet at the library on Thursday?",
+            at: daysAgo(1),
+          },
         ],
       },
       {
@@ -392,7 +405,12 @@ export function buildSeed(): Snapshot {
         listingId: "l-12",
         updatedAt: daysAgo(4),
         messages: [
-          { id: "m-4", senderId: "u-sipho", text: "Would you consider a swap for your web dev textbook?", at: daysAgo(4) },
+          {
+            id: "m-4",
+            senderId: "u-sipho",
+            text: "Would you consider a swap for your web dev textbook?",
+            at: daysAgo(4),
+          },
         ],
       },
     ],

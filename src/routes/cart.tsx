@@ -11,9 +11,15 @@ export const Route = createFileRoute("/cart")({
   head: () => ({
     meta: [
       { title: "Your cart — SecondHand Textbook Swap" },
-      { name: "description", content: "Review the second-hand textbooks you plan to buy before checkout." },
+      {
+        name: "description",
+        content: "Review the second-hand textbooks you plan to buy before checkout.",
+      },
       { property: "og:title", content: "Your cart — SecondHand Textbook Swap" },
-      { property: "og:description", content: "Review your selected used textbooks and continue to checkout." },
+      {
+        property: "og:description",
+        content: "Review your selected used textbooks and continue to checkout.",
+      },
     ],
   }),
   component: () => (
@@ -30,7 +36,10 @@ function CartPage() {
 
   return (
     <>
-      <PageHeader title="Your cart" subtitle={`${items.length} textbook${items.length === 1 ? "" : "s"}`} />
+      <PageHeader
+        title="Your cart"
+        subtitle={`${items.length} textbook${items.length === 1 ? "" : "s"}`}
+      />
       {items.length === 0 ? (
         <EmptyState
           title="Your cart is empty"
@@ -60,7 +69,9 @@ function CartPage() {
                   >
                     {listing.title}
                   </Link>
-                  <p className="text-xs text-muted-foreground">{listing.module} · {listing.campus}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {listing.module} · {listing.campus}
+                  </p>
                   <p className="mt-1 font-semibold text-primary">{rand(listing.price)}</p>
                 </div>
                 <Button

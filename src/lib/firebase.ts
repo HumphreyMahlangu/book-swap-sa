@@ -17,9 +17,9 @@ export const firebaseConfig = {
 /** True only when every required Firebase variable is present. */
 export const isFirebaseConfigured = Boolean(
   firebaseConfig.apiKey &&
-    firebaseConfig.authDomain &&
-    firebaseConfig.projectId &&
-    firebaseConfig.appId,
+  firebaseConfig.authDomain &&
+  firebaseConfig.projectId &&
+  firebaseConfig.appId,
 );
 
 let app: FirebaseApp | undefined;

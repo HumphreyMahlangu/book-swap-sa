@@ -56,7 +56,13 @@ interface AppContextValue {
   // lookups
   userById: (id: string) => User | undefined;
   listingById: (id: string) => Listing | undefined;
-  sellerStats: (id: string) => { rating: number; reviewCount: number; active: number; sold: number; swapped: number };
+  sellerStats: (id: string) => {
+    rating: number;
+    reviewCount: number;
+    active: number;
+    sold: number;
+    swapped: number;
+  };
   cart: string[];
   unreadCount: number;
   // listings
@@ -74,7 +80,11 @@ interface AppContextValue {
   }) => Promise<Order>;
   completeOrder: (orderId: string) => Promise<void>;
   // swaps
-  requestSwap: (input: { targetListingId: string; offeredListingId: string; message: string }) => Promise<void>;
+  requestSwap: (input: {
+    targetListingId: string;
+    offeredListingId: string;
+    message: string;
+  }) => Promise<void>;
   respondToSwap: (id: string, status: SwapRequest["status"]) => Promise<void>;
   // messages
   openConversation: (otherUserId: string, listingId?: string) => Promise<string>;
@@ -85,7 +95,12 @@ interface AppContextValue {
   // profile + reviews
   updateProfile: (patch: Partial<User>) => Promise<void>;
   updatePrefs: (patch: Partial<NotificationPrefs>) => Promise<void>;
-  addReview: (input: { sellerId: string; rating: number; comment: string; orderId?: string }) => Promise<void>;
+  addReview: (input: {
+    sellerId: string;
+    rating: number;
+    comment: string;
+    orderId?: string;
+  }) => Promise<void>;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -154,18 +169,15 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     [data.notifications, user],
   );
 
-  const notify = useCallback(
-    async (input: Omit<AppNotification, "id" | "at" | "read">) => {
-      const notification: AppNotification = {
-        ...input,
-        id: uid("n"),
-        at: new Date().toISOString(),
-        read: false,
-      };
-      await repo.put("notifications", notification);
-    },
-    [],
-  );
+  const notify = useCallback(async (input: Omit<AppNotification, "id" | "at" | "read">) => {
+    const notification: AppNotification = {
+      ...input,
+      id: uid("n"),
+      at: new Date().toISOString(),
+      read: false,
+    };
+    await repo.put("notifications", notification);
+  }, []);
 
   const saveCart = useCallback(
     async (listingIds: string[]) => {
@@ -255,9 +267,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
     placeOrder: async ({ fulfilment, note, payment }) => {
       if (!user) throw new Error("Please sign in first.");
-      const listings = cart
-        .map((id) => listingById(id))
-        .filter((l): l is Listing => Boolean(l));
+      const listings = cart.map((id) => listingById(id)).filter((l): l is Listing => Boolean(l));
       if (!listings.length) throw new Error("Your cart is empty.");
       const nowIso = new Date().toISOString();
       const order: Order = {
@@ -399,10 +409,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       const updated: Conversation = {
         ...conversation,
         updatedAt: nowIso,
-        messages: [
-          ...conversation.messages,
-          { id: uid("m"), senderId: user.id, text, at: nowIso },
-        ],
+        messages: [...conversation.messages, { id: uid("m"), senderId: user.id, text, at: nowIso }],
       };
       await repo.put("conversations", updated);
       const other = conversation.participantIds.find((id) => id !== user.id);
@@ -426,7 +433,9 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     },
     markAllNotificationsRead: async () => {
       if (!user) return;
-      for (const notification of data.notifications.filter((n) => n.userId === user.id && !n.read)) {
+      for (const notification of data.notifications.filter(
+        (n) => n.userId === user.id && !n.read,
+      )) {
         await repo.put("notifications", { ...notification, read: true });
       }
       await load();

@@ -21,7 +21,8 @@ export const Route = createFileRoute("/signup")({
       { title: "Create account — SecondHand Textbook Swap" },
       {
         name: "description",
-        content: "Register with your student email to list, buy and swap second-hand textbooks on campus.",
+        content:
+          "Register with your student email to list, buy and swap second-hand textbooks on campus.",
       },
       { property: "og:title", content: "Create account — SecondHand Textbook Swap" },
       { property: "og:description", content: "Join the student textbook marketplace." },
@@ -74,7 +75,12 @@ function SignupPage() {
         >
           <div className="space-y-1.5">
             <Label htmlFor="fullName">Full name</Label>
-            <Input id="fullName" value={form.fullName} onChange={(e) => set("fullName", e.target.value)} required />
+            <Input
+              id="fullName"
+              value={form.fullName}
+              onChange={(e) => set("fullName", e.target.value)}
+              required
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="studentNumber">Student number</Label>
@@ -87,7 +93,13 @@ function SignupPage() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="email">Student email</Label>
-            <Input id="email" type="email" value={form.email} onChange={(e) => set("email", e.target.value)} required />
+            <Input
+              id="email"
+              type="email"
+              value={form.email}
+              onChange={(e) => set("email", e.target.value)}
+              required
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="institution">Institution</Label>
@@ -124,7 +136,10 @@ function SignupPage() {
             />
           </div>
           {error ? (
-            <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p
+              role="alert"
+              className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            >
               {error}
             </p>
           ) : null}

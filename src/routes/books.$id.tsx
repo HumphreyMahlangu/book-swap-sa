@@ -11,9 +11,15 @@ export const Route = createFileRoute("/books/$id")({
   head: () => ({
     meta: [
       { title: "Textbook details — SecondHand Textbook Swap" },
-      { name: "description", content: "Full details, price and seller info for a second-hand university textbook." },
+      {
+        name: "description",
+        content: "Full details, price and seller info for a second-hand university textbook.",
+      },
       { property: "og:title", content: "Textbook details — SecondHand Textbook Swap" },
-      { property: "og:description", content: "Buy or swap this used university textbook with a fellow student." },
+      {
+        property: "og:description",
+        content: "Buy or swap this used university textbook with a fellow student.",
+      },
     ],
   }),
   component: () => (
@@ -48,7 +54,11 @@ function BookDetail() {
   const isOwn = user?.id === listing.sellerId;
   const reviews = data.reviews.filter((r) => r.sellerId === listing.sellerId).slice(0, 3);
   const typeLabel =
-    listing.listingType === "sell" ? "Sell" : listing.listingType === "swap" ? "Swap" : "Sell or Swap";
+    listing.listingType === "sell"
+      ? "Sell"
+      : listing.listingType === "swap"
+        ? "Swap"
+        : "Sell or Swap";
 
   return (
     <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
@@ -74,7 +84,9 @@ function BookDetail() {
               </span>
             ) : null}
           </div>
-          <h1 className="mt-3 text-2xl font-semibold tracking-tight text-primary-dark">{listing.title}</h1>
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight text-primary-dark">
+            {listing.title}
+          </h1>
           <p className="text-sm text-muted-foreground">
             {listing.author} · {listing.edition}
           </p>
@@ -107,14 +119,17 @@ function BookDetail() {
             <span className="flex items-center gap-1 text-sm font-semibold text-primary-dark">
               <Star className="h-4 w-4 fill-accent text-accent" />
               {stats.rating ? stats.rating.toFixed(1) : "New"}
-              <span className="text-xs font-normal text-muted-foreground">({stats.reviewCount})</span>
+              <span className="text-xs font-normal text-muted-foreground">
+                ({stats.reviewCount})
+              </span>
             </span>
           </div>
           {reviews.length ? (
             <ul className="mt-3 space-y-2 border-t border-border pt-3">
               {reviews.map((r) => (
                 <li key={r.id} className="text-xs text-muted-foreground">
-                  <span className="font-medium text-primary-dark">{r.authorName}</span> · {r.rating}★ — {r.comment}
+                  <span className="font-medium text-primary-dark">{r.authorName}</span> · {r.rating}
+                  ★ — {r.comment}
                 </li>
               ))}
             </ul>

@@ -15,9 +15,16 @@ export const Route = createFileRoute("/checkout")({
   head: () => ({
     meta: [
       { title: "Checkout — SecondHand Textbook Swap" },
-      { name: "description", content: "Simulated student checkout: choose collection or campus delivery and place a demo order." },
+      {
+        name: "description",
+        content:
+          "Simulated student checkout: choose collection or campus delivery and place a demo order.",
+      },
       { property: "og:title", content: "Checkout — SecondHand Textbook Swap" },
-      { property: "og:description", content: "Place a demo textbook order with no real payment details." },
+      {
+        property: "og:description",
+        content: "Place a demo textbook order with no real payment details.",
+      },
     ],
   }),
   component: () => (
@@ -76,7 +83,9 @@ function CheckoutPage() {
                 >
                   <span className="font-medium capitalize">{option}</span>
                   <span className="block text-xs text-muted-foreground">
-                    {option === "collection" ? "Meet the seller on campus" : "Seller drops it off on campus"}
+                    {option === "collection"
+                      ? "Meet the seller on campus"
+                      : "Seller drops it off on campus"}
                   </span>
                 </button>
               ))}
