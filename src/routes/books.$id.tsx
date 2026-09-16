@@ -158,7 +158,7 @@ function BookDetail() {
               ) : null}
               {listing.listingType !== "sell" ? (
                 <Button asChild variant="outline" className="rounded-xl">
-                  <Link to="/swaps">
+                  <Link to="/swaps" search={{ target: listing.id }}>
                     <Repeat2 className="mr-2 h-4 w-4" /> Request swap
                   </Link>
                 </Button>

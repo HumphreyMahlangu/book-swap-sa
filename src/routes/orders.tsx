@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useChildMatches } from "@tanstack/react-router";
 
 import { AppShell, EmptyState, PageHeader } from "@/components/app-shell";
 import { rand } from "@/components/book-card";
@@ -22,11 +22,17 @@ export const Route = createFileRoute("/orders")({
       },
     ],
   }),
-  component: () => (
-    <AppShell>
-      <OrdersPage />
-    </AppShell>
-  ),
+  component: function OrdersRouteComponent() {
+    const childMatches = useChildMatches();
+    if (childMatches.length > 0) {
+      return <Outlet />;
+    }
+    return (
+      <AppShell>
+        <OrdersPage />
+      </AppShell>
+    );
+  },
 });
 
 function OrderRow({ order }: { order: Order }) {

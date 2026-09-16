@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useChildMatches } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 import { AppShell, EmptyState, PageHeader } from "@/components/app-shell";
@@ -18,11 +18,17 @@ export const Route = createFileRoute("/listings")({
       { property: "og:description", content: "Edit and manage your published textbook listings." },
     ],
   }),
-  component: () => (
-    <AppShell>
-      <MyListings />
-    </AppShell>
-  ),
+  component: function ListingsRouteComponent() {
+    const childMatches = useChildMatches();
+    if (childMatches.length > 0) {
+      return <Outlet />;
+    }
+    return (
+      <AppShell>
+        <MyListings />
+      </AppShell>
+    );
+  },
 });
 
 function MyListings() {
