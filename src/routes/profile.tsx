@@ -69,7 +69,7 @@ function ProfilePage() {
   const [fullName, setFullName] = useState(user?.fullName ?? "");
   const [studentNumber, setStudentNumber] = useState(user?.studentNumber ?? "");
   const [institution, setInstitution] = useState(user?.institution ?? "");
-  const [campus, setCampus] = useState(user?.campus ?? CAMPUSES[0]);
+  const [campus, setCampus] = useState(user?.campus ?? CAMPUSES[0]!);
   const [bio, setBio] = useState(user?.bio ?? "");
   const [saving, setSaving] = useState(false);
 

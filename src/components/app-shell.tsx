@@ -31,16 +31,6 @@ const desktopExtra = [
   { to: "/help", label: "Help", icon: HelpCircle },
 ] as const;
 
-export function DemoBadge() {
-  const { mode } = useApp();
-  if (mode !== "demo") return null;
-  return (
-    <span className="rounded-full bg-brand-light px-3 py-1 text-[11px] font-semibold tracking-wide text-primary-dark">
-      DEMO MODE
-    </span>
-  );
-}
-
 export function LoadingScreen({ label = "Loading…" }: { label?: string }) {
   return (
     <div className="flex min-h-[50vh] items-center justify-center">
@@ -122,7 +112,6 @@ function TopBar() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
-          <DemoBadge />
           <Link
             to="/notifications"
             className="relative rounded-lg p-2 text-muted-foreground transition hover:bg-secondary hover:text-primary-dark"

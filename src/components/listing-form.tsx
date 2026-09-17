@@ -19,20 +19,20 @@ export function ListingForm({
   submitLabel: string;
   onSubmit: (values: NewListingInput) => Promise<void>;
 }) {
-  const { user, uploadImage } = useApp();
+  const { user } = useApp();
   const [values, setValues] = useState<NewListingInput>({
     title: initial?.title ?? "",
     author: initial?.author ?? "",
     edition: initial?.edition ?? "",
     isbn: initial?.isbn ?? "",
     module: initial?.module ?? "",
-    category: initial?.category ?? CATEGORIES[0],
+    category: initial?.category ?? CATEGORIES[0]!,
     condition: initial?.condition ?? "Good",
     description: initial?.description ?? "",
     price: initial?.price ?? 0,
-    campus: initial?.campus ?? user?.campus ?? CAMPUSES[0],
+    campus: initial?.campus ?? user?.campus ?? CAMPUSES[0]!,
     listingType: initial?.listingType ?? "sell",
-    imageUrl: initial?.imageUrl,
+    ...(initial?.imageUrl ? { imageUrl: initial.imageUrl } : {}),
   });
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -69,7 +69,9 @@ export function ListingForm({
       ) : null}
 
       <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-        <Label className="text-sm font-semibold text-primary-dark">Cover photo (optional)</Label>
+        <Label htmlFor="cover-url" className="text-sm font-semibold text-primary-dark">
+          Cover image URL (optional)
+        </Label>
         <div className="mt-3 flex items-center gap-4">
           <div className="h-28 w-20 overflow-hidden rounded-xl border border-border bg-brand-light/50">
             {values.imageUrl ? (
@@ -80,17 +82,19 @@ export function ListingForm({
               />
             ) : null}
           </div>
-          <Input
-            type="file"
-            accept="image/*"
-            className="max-w-xs rounded-xl"
-            onChange={async (e) => {
-              const file = e.target.files?.[0];
-              if (!file) return;
-              const url = await uploadImage(file);
-              set("imageUrl", url);
-            }}
-          />
+          <div className="max-w-md flex-1">
+            <Input
+              id="cover-url"
+              type="url"
+              value={values.imageUrl ?? ""}
+              placeholder="https://example.com/book-cover.jpg"
+              className="rounded-xl"
+              onChange={(e) => set("imageUrl", e.target.value)}
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Leave this empty to use the automatic textbook cover.
+            </p>
+          </div>
         </div>
       </div>
 

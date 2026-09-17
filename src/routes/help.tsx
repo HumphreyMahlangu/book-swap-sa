@@ -119,12 +119,11 @@ function HelpPage() {
 
           <AccordionItem value="item-3">
             <AccordionTrigger className="text-sm font-semibold text-left">
-              How does checkout and payment work in demo mode?
+              How does checkout and payment work?
             </AccordionTrigger>
             <AccordionContent className="text-xs text-muted-foreground leading-relaxed">
-              This presentation build operates in a safe simulated demo mode. All checkouts, orders,
-              chat messages, and swap proposals persist locally in your browser so you can test and
-              demonstrate the full user journey without real banking details.
+              Orders, chat messages, and swap proposals are stored in Firebase. Payments are only
+              arranged or simulated, and the app never asks for real card or banking details.
             </AccordionContent>
           </AccordionItem>
 
