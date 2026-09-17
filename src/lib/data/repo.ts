@@ -1,7 +1,6 @@
-import { isFirebaseConfigured } from "../firebase";
-import { demoRepo } from "./demoRepo";
 import { firebaseRepo } from "./firebaseRepo";
 import type { Repo } from "./types";
 
-export const repo: Repo = isFirebaseConfigured ? firebaseRepo : demoRepo;
-export const isDemoMode = repo.mode === "demo";
+// Production data is always backed by Firebase. Missing Firebase configuration
+// is surfaced as an actionable error instead of silently switching to localStorage.
+export const repo: Repo = firebaseRepo;

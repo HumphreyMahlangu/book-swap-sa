@@ -18,12 +18,12 @@ export const Route = createFileRoute("/checkout")({
       {
         name: "description",
         content:
-          "Simulated student checkout: choose collection or campus delivery and place a demo order.",
+          "Student checkout for arranging textbook collection or campus delivery.",
       },
       { property: "og:title", content: "Checkout — SecondHand Textbook Swap" },
       {
         property: "og:description",
-        content: "Place a demo textbook order with no real payment details.",
+        content: "Place a textbook order without entering card or banking details.",
       },
     ],
   }),
@@ -34,13 +34,13 @@ export const Route = createFileRoute("/checkout")({
   ),
 });
 
-const PAYMENTS = ["Demo card payment", "Pay on collection", "EFT simulation"];
+const PAYMENTS = ["Simulated card payment", "Pay on collection", "EFT simulation"];
 
 function CheckoutPage() {
   const { cart, listingById, placeOrder } = useApp();
   const navigate = useNavigate();
   const [fulfilment, setFulfilment] = useState<Order["fulfilment"]>("collection");
-  const [payment, setPayment] = useState(PAYMENTS[0]);
+  const [payment, setPayment] = useState(PAYMENTS[0]!);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -93,7 +93,7 @@ function CheckoutPage() {
           </section>
 
           <section className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-            <h2 className="text-sm font-semibold text-primary-dark">Payment (demo only)</h2>
+            <h2 className="text-sm font-semibold text-primary-dark">Payment arrangement</h2>
             <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
               <ShieldCheck className="h-3.5 w-3.5" /> No card or bank details are ever collected.
             </p>
@@ -151,8 +151,12 @@ function CheckoutPage() {
             onClick={async () => {
               setBusy(true);
               try {
-                const order = await placeOrder({ fulfilment, note: note || undefined, payment });
-                toast.success(`Demo order ${order.orderNumber} placed`);
+                const order = await placeOrder({
+                  fulfilment,
+                  payment,
+                  ...(note.trim() ? { note: note.trim() } : {}),
+                });
+                toast.success(`Order ${order.orderNumber} placed`);
                 navigate({ to: "/orders/$id", params: { id: order.id } });
               } catch (error) {
                 toast.error(error instanceof Error ? error.message : "Could not place the order");
@@ -161,7 +165,7 @@ function CheckoutPage() {
               }
             }}
           >
-            {busy ? "Placing order…" : "Place demo order"}
+            {busy ? "Placing order…" : "Place order"}
           </Button>
         </aside>
       </div>

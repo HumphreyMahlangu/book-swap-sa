@@ -44,9 +44,8 @@ interface SwapsSearch {
 }
 
 export const Route = createFileRoute("/swaps")({
-  validateSearch: (search: Record<string, unknown>): SwapsSearch => ({
-    target: typeof search["target"] === "string" ? search["target"] : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): SwapsSearch =>
+    typeof search["target"] === "string" ? { target: search["target"] } : {},
   head: () => ({
     meta: [
       { title: "Textbook Swaps — SecondHand Textbook Swap" },

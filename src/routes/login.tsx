@@ -2,11 +2,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { DemoBadge } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DEMO_EMAIL, DEMO_PASSWORD } from "@/lib/data/seed";
 import { useApp } from "@/lib/data/store";
 
 export const Route = createFileRoute("/login")({
@@ -28,20 +26,17 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
-  const { signIn, signInDemo } = useApp();
+  const { signIn } = useApp();
   const navigate = useNavigate();
-  const [email, setEmail] = useState(DEMO_EMAIL);
-  const [password, setPassword] = useState(DEMO_PASSWORD);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-5 py-10">
       <div className="w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-sm">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold text-primary-dark">Welcome back</h1>
-          <DemoBadge />
-        </div>
+        <h1 className="text-xl font-semibold text-primary-dark">Welcome back</h1>
         <p className="mt-1 text-sm text-muted-foreground">Sign in with your student email.</p>
 
         <form
@@ -93,18 +88,6 @@ function LoginPage() {
             {busy ? "Signing in…" : "Sign in"}
           </Button>
         </form>
-
-        <Button
-          variant="outline"
-          className="mt-3 w-full rounded-xl"
-          onClick={async () => {
-            await signInDemo();
-            toast.success("Demo login successful");
-            navigate({ to: "/home" });
-          }}
-        >
-          One-click demo login
-        </Button>
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
           New here?{" "}

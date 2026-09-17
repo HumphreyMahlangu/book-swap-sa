@@ -39,7 +39,7 @@ function SignupPage() {
     studentNumber: "",
     email: "",
     institution: "Cape Peninsula University of Technology",
-    campus: CAMPUSES[0],
+    campus: CAMPUSES[0]!,
     password: "",
   });
   const [busy, setBusy] = useState(false);
