@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { BookOpen, MapPin } from "lucide-react";
+import { useState } from "react";
 
 import type { Listing } from "@/lib/data/types";
 
@@ -14,12 +15,15 @@ export function ConditionPill({ condition }: { condition: Listing["condition"] }
 }
 
 export function BookCover({ listing, className = "" }: { listing: Listing; className?: string }) {
-  if (listing.imageUrl) {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  if (listing.imageUrl && !imageFailed) {
     return (
       <img
         src={listing.imageUrl}
         alt={`Cover of ${listing.title}`}
         loading="lazy"
+        onError={() => setImageFailed(true)}
         className={`h-full w-full object-cover ${className}`}
       />
     );

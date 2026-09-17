@@ -15,22 +15,22 @@ import { useApp } from "@/lib/data/store";
 import { CAMPUSES, CATEGORIES, CONDITIONS } from "@/lib/data/types";
 
 interface BrowseSearch {
-  q: string;
-  category: string;
-  condition: string;
-  campus: string;
-  type: string;
-  sort: string;
+  q?: string;
+  category?: string;
+  condition?: string;
+  campus?: string;
+  type?: string;
+  sort?: string;
 }
 
 export const Route = createFileRoute("/browse")({
   validateSearch: (search: Record<string, unknown>): BrowseSearch => ({
-    q: typeof search["q"] === "string" ? search["q"] : "",
-    category: typeof search["category"] === "string" ? search["category"] : "all",
-    condition: typeof search["condition"] === "string" ? search["condition"] : "all",
-    campus: typeof search["campus"] === "string" ? search["campus"] : "all",
-    type: typeof search["type"] === "string" ? search["type"] : "all",
-    sort: typeof search["sort"] === "string" ? search["sort"] : "newest",
+    ...(typeof search["q"] === "string" ? { q: search["q"] } : {}),
+    ...(typeof search["category"] === "string" ? { category: search["category"] } : {}),
+    ...(typeof search["condition"] === "string" ? { condition: search["condition"] } : {}),
+    ...(typeof search["campus"] === "string" ? { campus: search["campus"] } : {}),
+    ...(typeof search["type"] === "string" ? { type: search["type"] } : {}),
+    ...(typeof search["sort"] === "string" ? { sort: search["sort"] } : {}),
   }),
   head: () => ({
     meta: [
@@ -53,28 +53,36 @@ export const Route = createFileRoute("/browse")({
 
 function BrowsePage() {
   const search = Route.useSearch();
+  const filters = {
+    q: search.q ?? "",
+    category: search.category ?? "all",
+    condition: search.condition ?? "all",
+    campus: search.campus ?? "all",
+    type: search.type ?? "all",
+    sort: search.sort ?? "newest",
+  };
   const navigate = useNavigate({ from: Route.fullPath });
   const { data } = useApp();
 
   const update = (patch: Partial<BrowseSearch>) =>
     navigate({ to: ".", search: (prev) => ({ ...prev, ...patch }) });
 
-  const term = search.q.trim().toLowerCase();
+  const term = filters.q.trim().toLowerCase();
   let results = data.listings.filter((l) => l.status === "active");
   if (term) {
     results = results.filter((l) =>
       [l.title, l.author, l.module, l.isbn, l.category].join(" ").toLowerCase().includes(term),
     );
   }
-  if (search.category !== "all") results = results.filter((l) => l.category === search.category);
-  if (search.condition !== "all") results = results.filter((l) => l.condition === search.condition);
-  if (search.campus !== "all") results = results.filter((l) => l.campus === search.campus);
-  if (search.type !== "all")
-    results = results.filter((l) => l.listingType === search.type || l.listingType === "both");
+  if (filters.category !== "all") results = results.filter((l) => l.category === filters.category);
+  if (filters.condition !== "all") results = results.filter((l) => l.condition === filters.condition);
+  if (filters.campus !== "all") results = results.filter((l) => l.campus === filters.campus);
+  if (filters.type !== "all")
+    results = results.filter((l) => l.listingType === filters.type || l.listingType === "both");
 
   results = [...results].sort((a, b) => {
-    if (search.sort === "price-asc") return a.price - b.price;
-    if (search.sort === "price-desc") return b.price - a.price;
+    if (filters.sort === "price-asc") return a.price - b.price;
+    if (filters.sort === "price-desc") return b.price - a.price;
     return b.createdAt.localeCompare(a.createdAt);
   });
 
@@ -86,7 +94,7 @@ function BrowsePage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            value={search.q}
+            value={filters.q}
             onChange={(e) => update({ q: e.target.value })}
             placeholder="Search title, author, module or ISBN"
             className="pl-9"
@@ -97,29 +105,29 @@ function BrowsePage() {
         <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
           <FilterSelect
             label="Category"
-            value={search.category}
+            value={filters.category}
             options={CATEGORIES}
             onChange={(v) => update({ category: v })}
           />
           <FilterSelect
             label="Condition"
-            value={search.condition}
+            value={filters.condition}
             options={CONDITIONS}
             onChange={(v) => update({ condition: v })}
           />
           <FilterSelect
             label="Campus"
-            value={search.campus}
+            value={filters.campus}
             options={CAMPUSES}
             onChange={(v) => update({ campus: v })}
           />
           <FilterSelect
             label="Type"
-            value={search.type}
+            value={filters.type}
             options={["sell", "swap"]}
             onChange={(v) => update({ type: v })}
           />
-          <Select value={search.sort} onValueChange={(v) => update({ sort: v })}>
+          <Select value={filters.sort} onValueChange={(v) => update({ sort: v })}>
             <SelectTrigger aria-label="Sort">
               <SelectValue />
             </SelectTrigger>

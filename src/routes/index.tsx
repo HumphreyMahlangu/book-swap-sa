@@ -1,9 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { BookOpen, Repeat2, ShieldCheck, Wallet } from "lucide-react";
 import { useEffect } from "react";
-import { toast } from "sonner";
 
-import { DemoBadge, LoadingScreen } from "@/components/app-shell";
+import { LoadingScreen } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/lib/data/store";
 
@@ -27,7 +26,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Welcome() {
-  const { ready, user, signInDemo } = useApp();
+  const { ready, user } = useApp();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +49,6 @@ function Welcome() {
               Textbook Swap
             </span>
           </span>
-          <DemoBadge />
         </div>
 
         <section className="mt-12 grid gap-10 lg:grid-cols-2 lg:items-center">
@@ -64,25 +62,10 @@ function Welcome() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button
-                size="lg"
-                className="rounded-xl"
-                onClick={async () => {
-                  try {
-                    await signInDemo();
-                    toast.success("Signed in as Thabo Mokoena (demo student)");
-                    navigate({ to: "/home" });
-                  } catch (error) {
-                    toast.error((error as Error).message);
-                  }
-                }}
-              >
-                Try the demo
-              </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-xl">
+              <Button asChild size="lg" className="rounded-xl">
                 <Link to="/login">Sign in</Link>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="rounded-xl">
+              <Button asChild size="lg" variant="outline" className="rounded-xl">
                 <Link to="/signup">Create account</Link>
               </Button>
             </div>

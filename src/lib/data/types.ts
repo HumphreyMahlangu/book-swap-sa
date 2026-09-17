@@ -177,16 +177,14 @@ export interface SignUpInput {
 }
 
 export interface Repo {
-  mode: "demo" | "firebase";
+  mode: "firebase";
   currentUser(): Promise<User | null>;
   signUp(input: SignUpInput): Promise<User>;
   signIn(email: string, password: string): Promise<User>;
-  signInDemo(): Promise<User>;
   signOut(): Promise<void>;
   fetchAll(): Promise<Snapshot>;
   put<K extends CollectionName>(collection: K, item: Snapshot[K][number]): Promise<void>;
   remove(collection: CollectionName, id: string): Promise<void>;
-  uploadImage(file: File): Promise<string>;
 }
 
 export const emptySnapshot = (): Snapshot => ({

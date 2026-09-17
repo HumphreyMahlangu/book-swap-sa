@@ -44,14 +44,12 @@ export interface NewListingInput {
 
 interface AppContextValue {
   ready: boolean;
-  mode: "demo" | "firebase";
   user: User | null;
   data: Snapshot;
   refresh: () => Promise<void>;
   // auth
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (input: SignUpInput) => Promise<void>;
-  signInDemo: () => Promise<void>;
   signOut: () => Promise<void>;
   // lookups
   userById: (id: string) => User | undefined;
@@ -69,7 +67,6 @@ interface AppContextValue {
   createListing: (input: NewListingInput) => Promise<Listing>;
   updateListing: (id: string, patch: Partial<Listing>) => Promise<void>;
   deleteListing: (id: string) => Promise<void>;
-  uploadImage: (file: File) => Promise<string>;
   // cart + orders
   addToCart: (listingId: string) => Promise<boolean>;
   removeFromCart: (listingId: string) => Promise<void>;
@@ -191,7 +188,6 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
   const value: AppContextValue = {
     ready,
-    mode: repo.mode,
     user,
     data,
     refresh: async () => {
@@ -211,11 +207,6 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     signUp: async (input) => {
       const created = await repo.signUp(input);
       setUser(created);
-      await load();
-    },
-    signInDemo: async () => {
-      const demo = await repo.signInDemo();
-      setUser(demo);
       await load();
     },
     signOut: async () => {
@@ -254,8 +245,6 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       await repo.remove("listings", id);
       await load();
     },
-    uploadImage: (file) => repo.uploadImage(file),
-
     addToCart: async (listingId) => {
       if (cart.includes(listingId)) return false;
       await saveCart([...cart, listingId]);
@@ -279,15 +268,15 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
           title: l.title,
           price: l.price,
           sellerId: l.sellerId,
-          imageUrl: l.imageUrl,
+          ...(l.imageUrl ? { imageUrl: l.imageUrl } : {}),
         })),
         total: listings.reduce((sum, l) => sum + l.price, 0),
         fulfilment,
-        note,
+        ...(note ? { note } : {}),
         payment,
         meetingDetails:
           fulfilment === "collection"
-            ? `${listings[0].campus} — arrange a meeting spot with the seller`
+            ? `${listings[0]!.campus} — arrange a meeting spot with the seller`
             : "Campus delivery — the seller will confirm a drop-off time",
         status: "active",
         timeline: [
@@ -392,7 +381,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       const conversation: Conversation = {
         id: uid("c"),
         participantIds: [user.id, otherUserId],
-        listingId,
+        ...(listingId ? { listingId } : {}),
         messages: [],
         updatedAt: new Date().toISOString(),
       };
@@ -466,7 +455,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         rating,
         comment,
         at: new Date().toISOString(),
-        orderId,
+        ...(orderId ? { orderId } : {}),
       };
       await repo.put("reviews", review);
       if (orderId) {
