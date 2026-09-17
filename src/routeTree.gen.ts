@@ -13,13 +13,20 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as ListingsRouteImport } from './routes/listings'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as OrdersRouteImport } from './routes/orders'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SwapsRouteImport } from './routes/swaps'
 import { Route as BooksIdRouteImport } from './routes/books.$id'
+import { Route as MessagesConversationIdRouteImport } from './routes/messages.$conversationId'
 import { Route as OrdersIdRouteImport } from './routes/orders.$id'
 import { Route as ListingsIdEditRouteImport } from './routes/listings.$id.edit'
 
@@ -43,6 +50,11 @@ const CheckoutRoute = CheckoutRouteImport.update({
   path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -58,9 +70,29 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersRoute = OrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SellRoute = SellRouteImport.update({
@@ -73,10 +105,20 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SwapsRoute = SwapsRouteImport.update({
+  id: '/swaps',
+  path: '/swaps',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BooksIdRoute = BooksIdRouteImport.update({
   id: '/books/$id',
   path: '/books/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesConversationIdRoute = MessagesConversationIdRouteImport.update({
+  id: '/$conversationId',
+  path: '/$conversationId',
+  getParentRoute: () => MessagesRoute,
 } as any)
 const OrdersIdRoute = OrdersIdRouteImport.update({
   id: '/$id',
@@ -94,13 +136,20 @@ export interface FileRoutesByFullPath {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/listings': typeof ListingsRouteWithChildren
   '/login': typeof LoginRoute
+  '/messages': typeof MessagesRouteWithChildren
+  '/notifications': typeof NotificationsRoute
   '/orders': typeof OrdersRouteWithChildren
+  '/profile': typeof ProfileRoute
+  '/reviews': typeof ReviewsRoute
   '/sell': typeof SellRoute
   '/signup': typeof SignupRoute
+  '/swaps': typeof SwapsRoute
   '/books/$id': typeof BooksIdRoute
+  '/messages/$conversationId': typeof MessagesConversationIdRoute
   '/orders/$id': typeof OrdersIdRoute
   '/listings/$id/edit': typeof ListingsIdEditRoute
 }
@@ -109,13 +158,20 @@ export interface FileRoutesByTo {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/listings': typeof ListingsRouteWithChildren
   '/login': typeof LoginRoute
+  '/messages': typeof MessagesRouteWithChildren
+  '/notifications': typeof NotificationsRoute
   '/orders': typeof OrdersRouteWithChildren
+  '/profile': typeof ProfileRoute
+  '/reviews': typeof ReviewsRoute
   '/sell': typeof SellRoute
   '/signup': typeof SignupRoute
+  '/swaps': typeof SwapsRoute
   '/books/$id': typeof BooksIdRoute
+  '/messages/$conversationId': typeof MessagesConversationIdRoute
   '/orders/$id': typeof OrdersIdRoute
   '/listings/$id/edit': typeof ListingsIdEditRoute
 }
@@ -125,13 +181,20 @@ export interface FileRoutesById {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/listings': typeof ListingsRouteWithChildren
   '/login': typeof LoginRoute
+  '/messages': typeof MessagesRouteWithChildren
+  '/notifications': typeof NotificationsRoute
   '/orders': typeof OrdersRouteWithChildren
+  '/profile': typeof ProfileRoute
+  '/reviews': typeof ReviewsRoute
   '/sell': typeof SellRoute
   '/signup': typeof SignupRoute
+  '/swaps': typeof SwapsRoute
   '/books/$id': typeof BooksIdRoute
+  '/messages/$conversationId': typeof MessagesConversationIdRoute
   '/orders/$id': typeof OrdersIdRoute
   '/listings/$id/edit': typeof ListingsIdEditRoute
 }
@@ -142,13 +205,20 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/checkout'
+    | '/help'
     | '/home'
     | '/listings'
     | '/login'
+    | '/messages'
+    | '/notifications'
     | '/orders'
+    | '/profile'
+    | '/reviews'
     | '/sell'
     | '/signup'
+    | '/swaps'
     | '/books/$id'
+    | '/messages/$conversationId'
     | '/orders/$id'
     | '/listings/$id/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -157,13 +227,20 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/checkout'
+    | '/help'
     | '/home'
     | '/listings'
     | '/login'
+    | '/messages'
+    | '/notifications'
     | '/orders'
+    | '/profile'
+    | '/reviews'
     | '/sell'
     | '/signup'
+    | '/swaps'
     | '/books/$id'
+    | '/messages/$conversationId'
     | '/orders/$id'
     | '/listings/$id/edit'
   id:
@@ -172,13 +249,20 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/checkout'
+    | '/help'
     | '/home'
     | '/listings'
     | '/login'
+    | '/messages'
+    | '/notifications'
     | '/orders'
+    | '/profile'
+    | '/reviews'
     | '/sell'
     | '/signup'
+    | '/swaps'
     | '/books/$id'
+    | '/messages/$conversationId'
     | '/orders/$id'
     | '/listings/$id/edit'
   fileRoutesById: FileRoutesById
@@ -188,12 +272,18 @@ export interface RootRouteChildren {
   BrowseRoute: typeof BrowseRoute
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
+  HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
   ListingsRoute: typeof ListingsRouteWithChildren
   LoginRoute: typeof LoginRoute
+  MessagesRoute: typeof MessagesRouteWithChildren
+  NotificationsRoute: typeof NotificationsRoute
   OrdersRoute: typeof OrdersRouteWithChildren
+  ProfileRoute: typeof ProfileRoute
+  ReviewsRoute: typeof ReviewsRoute
   SellRoute: typeof SellRoute
   SignupRoute: typeof SignupRoute
+  SwapsRoute: typeof SwapsRoute
   BooksIdRoute: typeof BooksIdRoute
 }
 
@@ -227,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/home': {
       id: '/home'
       path: '/home'
@@ -248,11 +345,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders': {
       id: '/orders'
       path: '/orders'
       fullPath: '/orders'
       preLoaderRoute: typeof OrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sell': {
@@ -269,12 +394,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/swaps': {
+      id: '/swaps'
+      path: '/swaps'
+      fullPath: '/swaps'
+      preLoaderRoute: typeof SwapsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/books/$id': {
       id: '/books/$id'
       path: '/books/$id'
       fullPath: '/books/$id'
       preLoaderRoute: typeof BooksIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/messages/$conversationId': {
+      id: '/messages/$conversationId'
+      path: '/$conversationId'
+      fullPath: '/messages/$conversationId'
+      preLoaderRoute: typeof MessagesConversationIdRouteImport
+      parentRoute: typeof MessagesRoute
     }
     '/orders/$id': {
       id: '/orders/$id'
@@ -305,6 +444,18 @@ const ListingsRouteWithChildren = ListingsRoute._addFileChildren(
   ListingsRouteChildren,
 )
 
+interface MessagesRouteChildren {
+  MessagesConversationIdRoute: typeof MessagesConversationIdRoute
+}
+
+const MessagesRouteChildren: MessagesRouteChildren = {
+  MessagesConversationIdRoute: MessagesConversationIdRoute,
+}
+
+const MessagesRouteWithChildren = MessagesRoute._addFileChildren(
+  MessagesRouteChildren,
+)
+
 interface OrdersRouteChildren {
   OrdersIdRoute: typeof OrdersIdRoute
 }
@@ -321,12 +472,18 @@ const rootRouteChildren: RootRouteChildren = {
   BrowseRoute: BrowseRoute,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
+  HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
   ListingsRoute: ListingsRouteWithChildren,
   LoginRoute: LoginRoute,
+  MessagesRoute: MessagesRouteWithChildren,
+  NotificationsRoute: NotificationsRoute,
   OrdersRoute: OrdersRouteWithChildren,
+  ProfileRoute: ProfileRoute,
+  ReviewsRoute: ReviewsRoute,
   SellRoute: SellRoute,
   SignupRoute: SignupRoute,
+  SwapsRoute: SwapsRoute,
   BooksIdRoute: BooksIdRoute,
 }
 export const routeTree = rootRouteImport
