@@ -1,0 +1,64 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(field) {
+      return signedIn() && field == request.auth.uid;
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn();
+      allow create, update, delete: if signedIn() && request.auth.uid == userId;
+    }
+
+    match /listings/{listingId} {
+      allow read: if resource.data.status == 'active' ||
+        (signedIn() && resource.data.sellerId == request.auth.uid);
+      allow create: if isOwner(request.resource.data.sellerId);
+      allow update: if (isOwner(resource.data.sellerId) &&
+        request.resource.data.sellerId == resource.data.sellerId) ||
+        (signedIn() &&
+          resource.data.status == 'active' &&
+          request.resource.data.status in ['sold', 'swapped'] &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']));
+      allow delete: if isOwner(resource.data.sellerId);
+    }
+
+    match /orders/{orderId} {
+      allow read, update, delete: if isOwner(resource.data.buyerId);
+      allow create: if isOwner(request.resource.data.buyerId);
+    }
+
+    match /swaps/{swapId} {
+      allow read: if signedIn() &&
+        (resource.data.fromUserId == request.auth.uid || resource.data.toUserId == request.auth.uid);
+      allow create: if isOwner(request.resource.data.fromUserId);
+      allow update, delete: if signedIn() &&
+        (resource.data.fromUserId == request.auth.uid || resource.data.toUserId == request.auth.uid);
+    }
+
+    match /conversations/{conversationId} {
+      allow read, update, delete: if signedIn() && request.auth.uid in resource.data.participantIds;
+      allow create: if signedIn() && request.auth.uid in request.resource.data.participantIds;
+    }
+
+    match /notifications/{notificationId} {
+      allow read, update, delete: if isOwner(resource.data.userId);
+      allow create: if signedIn();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isOwner(request.resource.data.authorId);
+      allow update, delete: if isOwner(resource.data.authorId);
+    }
+
+    match /carts/{userId} {
+      allow read, create, update, delete: if signedIn() && request.auth.uid == userId;
+    }
+  }
+}
