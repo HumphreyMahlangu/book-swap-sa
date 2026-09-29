@@ -181,6 +181,7 @@ export interface Repo {
   currentUser(): Promise<User | null>;
   signUp(input: SignUpInput): Promise<User>;
   signIn(email: string, password: string): Promise<User>;
+  resetPassword(email: string): Promise<void>;
   signOut(): Promise<void>;
   fetchAll(): Promise<Snapshot>;
   put<K extends CollectionName>(collection: K, item: Snapshot[K][number]): Promise<void>;

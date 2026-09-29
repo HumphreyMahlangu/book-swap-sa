@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/password-input";
 import { useApp } from "@/lib/data/store";
 
 export const Route = createFileRoute("/login")({
@@ -67,10 +68,18 @@ function LoginPage() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
-            <Input
+            <div className="flex items-center justify-between gap-3">
+              <Label htmlFor="password">Password</Label>
+              <Link
+                to="/forgot-password"
+                className="text-xs font-medium text-primary underline-offset-2 hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <PasswordInput
               id="password"
-              type="password"
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

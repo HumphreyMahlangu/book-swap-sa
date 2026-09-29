@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut as fbSignOut,
 } from "firebase/auth";
@@ -89,6 +90,17 @@ export const firebaseRepo: Repo = {
     const snap = await getDoc(doc(getDb(), "users", cred.user.uid));
     if (!snap.exists()) throw new Error("We could not find your student profile.");
     return snap.data() as User;
+  },
+
+  async resetPassword(email: string) {
+    try {
+      await sendPasswordResetEmail(getFirebaseAuth(), email.trim().toLowerCase());
+    } catch (error) {
+      // Older Firebase projects can still return this code when email
+      // enumeration protection is disabled. Keep the response neutral.
+      if ((error as { code?: string }).code === "auth/user-not-found") return;
+      throw error;
+    }
   },
 
   async signOut() {

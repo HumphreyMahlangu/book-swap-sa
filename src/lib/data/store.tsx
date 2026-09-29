@@ -50,6 +50,7 @@ interface AppContextValue {
   // auth
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (input: SignUpInput) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
   // lookups
   userById: (id: string) => User | undefined;
@@ -208,6 +209,9 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       const created = await repo.signUp(input);
       setUser(created);
       await load();
+    },
+    resetPassword: async (email) => {
+      await repo.resetPassword(email);
     },
     signOut: async () => {
       await repo.signOut();

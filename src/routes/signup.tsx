@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/password-input";
 import {
   Select,
   SelectContent,
@@ -42,6 +43,7 @@ function SignupPage() {
     campus: CAMPUSES[0]!,
     password: "",
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const set = (key: keyof typeof form, value: string) => setForm((f) => ({ ...f, [key]: value }));
@@ -58,6 +60,10 @@ function SignupPage() {
             e.preventDefault();
             if (form.password.length < 6) {
               setError("Password must be at least 6 characters.");
+              return;
+            }
+            if (form.password !== confirmPassword) {
+              setError("Passwords do not match.");
               return;
             }
             setBusy(true);
@@ -127,11 +133,21 @@ function SignupPage() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="password">Password</Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
+              autoComplete="new-password"
               value={form.password}
               onChange={(e) => set("password", e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="confirmPassword">Confirm password</Label>
+            <PasswordInput
+              id="confirmPassword"
+              autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>

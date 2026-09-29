@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as ListingsRouteImport } from './routes/listings'
@@ -48,6 +49,11 @@ const CartRoute = CartRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HelpRoute = HelpRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/listings': typeof ListingsRouteWithChildren
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/listings': typeof ListingsRouteWithChildren
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/listings': typeof ListingsRouteWithChildren
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/checkout'
+    | '/forgot-password'
     | '/help'
     | '/home'
     | '/listings'
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/checkout'
+    | '/forgot-password'
     | '/help'
     | '/home'
     | '/listings'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/checkout'
+    | '/forgot-password'
     | '/help'
     | '/home'
     | '/listings'
@@ -272,6 +284,7 @@ export interface RootRouteChildren {
   BrowseRoute: typeof BrowseRoute
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
   ListingsRoute: typeof ListingsRouteWithChildren
@@ -315,6 +328,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/help': {
@@ -472,6 +492,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrowseRoute: BrowseRoute,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
   ListingsRoute: ListingsRouteWithChildren,
