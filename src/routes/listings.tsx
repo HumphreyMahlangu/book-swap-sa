@@ -9,12 +9,12 @@ import { useApp } from "@/lib/data/store";
 export const Route = createFileRoute("/listings")({
   head: () => ({
     meta: [
-      { title: "My listings — SecondHand Textbook Swap" },
+      { title: "My listings — Book Swap SA" },
       {
         name: "description",
         content: "Manage the textbooks you listed: edit, mark as sold or swapped, or delete.",
       },
-      { property: "og:title", content: "My listings — SecondHand Textbook Swap" },
+      { property: "og:title", content: "My listings — Book Swap SA" },
       { property: "og:description", content: "Edit and manage your published textbook listings." },
     ],
   }),

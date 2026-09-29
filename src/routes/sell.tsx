@@ -8,12 +8,12 @@ import { useApp } from "@/lib/data/store";
 export const Route = createFileRoute("/sell")({
   head: () => ({
     meta: [
-      { title: "Sell a textbook — SecondHand Textbook Swap" },
+      { title: "Sell a textbook — Book Swap SA" },
       {
         name: "description",
         content: "List your used university textbook for sale or swap in a few seconds.",
       },
-      { property: "og:title", content: "Sell a textbook — SecondHand Textbook Swap" },
+      { property: "og:title", content: "Sell a textbook — Book Swap SA" },
       {
         property: "og:description",
         content: "Publish your used textbook to students on your campus.",

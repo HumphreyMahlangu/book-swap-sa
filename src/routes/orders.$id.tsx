@@ -13,13 +13,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/orders/$id")({
   head: () => ({
     meta: [
-      { title: "Order details — SecondHand Textbook Swap" },
+      { title: "Order details — Book Swap SA" },
       {
         name: "description",
         content:
           "Order status timeline, seller contact and collection details for your textbook order.",
       },
-      { property: "og:title", content: "Order details — SecondHand Textbook Swap" },
+      { property: "og:title", content: "Order details — Book Swap SA" },
       {
         property: "og:description",
         content: "Follow your textbook order from confirmation to collection.",

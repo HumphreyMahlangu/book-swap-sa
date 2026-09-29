@@ -10,12 +10,12 @@ import type { Order } from "@/lib/data/types";
 export const Route = createFileRoute("/orders")({
   head: () => ({
     meta: [
-      { title: "My orders — SecondHand Textbook Swap" },
+      { title: "My orders — Book Swap SA" },
       {
         name: "description",
         content: "Track your active, completed and cancelled textbook orders.",
       },
-      { property: "og:title", content: "My orders — SecondHand Textbook Swap" },
+      { property: "og:title", content: "My orders — Book Swap SA" },
       {
         property: "og:description",
         content: "Track collection details and status for every textbook order.",

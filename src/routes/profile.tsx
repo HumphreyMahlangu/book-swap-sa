@@ -13,6 +13,10 @@ import {
   ShoppingBag,
   Star,
   User as UserIcon,
+  Languages,
+  Laptop,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -41,17 +45,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { useApp } from "@/lib/data/store";
 import { CAMPUSES } from "@/lib/data/types";
 import { cn } from "@/lib/utils";
+import {
+  SOUTH_AFRICAN_LANGUAGES,
+  useDisplayPreferences,
+  type LanguageCode,
+  type ThemePreference,
+} from "@/lib/display-preferences";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Student Profile — SecondHand Textbook Swap" },
+      { title: "Student Profile — Book Swap SA" },
       {
         name: "description",
         content:
           "Manage your student profile, campus location, listings, and notification preferences.",
       },
-      { property: "og:title", content: "Student Profile — SecondHand Textbook Swap" },
+      { property: "og:title", content: "Student Profile — Book Swap SA" },
     ],
   }),
   component: () => (
@@ -63,6 +73,7 @@ export const Route = createFileRoute("/profile")({
 
 function ProfilePage() {
   const { user, data, sellerStats, updateProfile, updatePrefs, signOut } = useApp();
+  const { theme, language, setTheme, setLanguage } = useDisplayPreferences();
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -285,6 +296,64 @@ function ProfilePage() {
 
         {/* Sidebar: Preferences & Account Settings */}
         <div className="space-y-6">
+          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <div className="flex items-center gap-2">
+              <Sun className="h-4 w-4 text-primary dark:hidden" />
+              <Moon className="hidden h-4 w-4 text-gold dark:block" />
+              <h3 className="text-sm font-semibold text-primary-dark">Display &amp; Language</h3>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Choose how Book Swap SA looks and your preferred language.
+            </p>
+
+            <div className="mt-4 space-y-4">
+              <fieldset>
+                <legend className="text-xs font-medium text-foreground">Appearance</legend>
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  {[
+                    { value: "light" as const, label: "Light", icon: Sun },
+                    { value: "dark" as const, label: "Dark", icon: Moon },
+                    { value: "system" as const, label: "Device", icon: Laptop },
+                  ].map((option) => {
+                    const Icon = option.icon;
+                    const selected = theme === option.value;
+                    return (
+                      <Button
+                        key={option.value}
+                        type="button"
+                        variant={selected ? "default" : "outline"}
+                        className="h-auto min-w-0 flex-col gap-1 rounded-lg px-2 py-2.5 text-xs"
+                        aria-pressed={selected}
+                        onClick={() => setTheme(option.value as ThemePreference)}
+                      >
+                        <Icon className="h-4 w-4" />
+                        {option.label}
+                      </Button>
+                    );
+                  })}
+                </div>
+              </fieldset>
+
+              <div>
+                <Label htmlFor="language" className="flex items-center gap-1.5 text-xs font-medium">
+                  <Languages className="h-3.5 w-3.5" /> Preferred language
+                </Label>
+                <Select value={language} onValueChange={(value) => setLanguage(value as LanguageCode)}>
+                  <SelectTrigger id="language" className="mt-2 rounded-lg">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SOUTH_AFRICAN_LANGUAGES.map((option) => (
+                      <SelectItem key={option.code} value={option.code}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
           {/* Notification Preferences */}
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center gap-2">
