@@ -10,12 +10,12 @@ import { CATEGORIES } from "@/lib/data/types";
 export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
-      { title: "Home — SecondHand Textbook Swap" },
+      { title: "Home — Book Swap SA" },
       {
         name: "description",
         content: "Your campus textbook marketplace dashboard: newest listings, swaps and orders.",
       },
-      { property: "og:title", content: "Home — SecondHand Textbook Swap" },
+      { property: "og:title", content: "Home — Book Swap SA" },
       {
         property: "og:description",
         content: "Newest second-hand textbooks listed by students on your campus.",
@@ -39,7 +39,7 @@ function HomePage() {
   return (
     <>
       <PageHeader
-        title={`Hi ${user?.fullName.split(" ")[0] ?? "there"} 👋`}
+        title={`Welcome back, ${user?.fullName.split(" ")[0] ?? "Student"} 👋`}
         subtitle={`${active.length} textbooks available near ${user?.campus ?? "your campus"}`}
         action={
           <Button asChild className="rounded-xl">
@@ -69,9 +69,9 @@ function HomePage() {
           <Link
             key={card.to}
             to={card.to}
-            className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm transition hover:shadow-md"
+            className="flex items-center gap-3 card-surface hover-lift p-5"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-primary">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
               <card.icon className="h-5 w-5" />
             </span>
             <span>
@@ -84,7 +84,7 @@ function HomePage() {
 
       <section className="mt-8">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-primary-dark">Newly listed</h2>
+          <h2 className="text-xl font-bold text-primary">Trending on Campus</h2>
           <Link to="/browse" className="flex items-center gap-1 text-sm font-medium text-primary">
             See all <ArrowRight className="h-4 w-4" />
           </Link>
@@ -109,7 +109,7 @@ function HomePage() {
       </section>
 
       <section className="mt-8">
-        <h2 className="mb-3 text-lg font-semibold text-primary-dark">Browse by category</h2>
+        <h2 className="mb-3 text-xl font-bold text-primary">Browse by category</h2>
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((c) => (
             <Link
@@ -123,7 +123,7 @@ function HomePage() {
                 type: "all",
                 sort: "newest",
               }}
-              className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-primary-dark transition hover:bg-secondary"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-primary transition hover:border-gold hover:bg-gold-soft"
             >
               {c}
             </Link>
@@ -133,7 +133,7 @@ function HomePage() {
 
       {swappable.length ? (
         <section className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-primary-dark">Open to swaps</h2>
+          <h2 className="mb-3 text-xl font-bold text-primary">Open to swaps</h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {swappable.map((l) => (
               <BookCard key={l.id} listing={l} />

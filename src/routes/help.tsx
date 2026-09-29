@@ -22,13 +22,13 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/help")({
   head: () => ({
     meta: [
-      { title: "Help & Campus Safety — SecondHand Textbook Swap" },
+      { title: "Help & Campus Safety — Book Swap SA" },
       {
         name: "description",
         content:
           "Frequently asked questions and safety guidelines for university textbook exchanges.",
       },
-      { property: "og:title", content: "Help & Campus Safety — SecondHand Textbook Swap" },
+      { property: "og:title", content: "Help & Campus Safety — Book Swap SA" },
     ],
   }),
   component: () => (

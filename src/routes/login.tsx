@@ -10,12 +10,12 @@ import { useApp } from "@/lib/data/store";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Sign in — SecondHand Textbook Swap" },
+      { title: "Sign in — Book Swap SA" },
       {
         name: "description",
         content: "Sign in with your student email to buy, sell and swap textbooks.",
       },
-      { property: "og:title", content: "Sign in — SecondHand Textbook Swap" },
+      { property: "og:title", content: "Sign in — Book Swap SA" },
       {
         property: "og:description",
         content: "Sign in to your student textbook marketplace account.",

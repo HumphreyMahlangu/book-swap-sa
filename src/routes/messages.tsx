@@ -18,12 +18,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/messages")({
   head: () => ({
     meta: [
-      { title: "Messages — SecondHand Textbook Swap" },
+      { title: "Messages — Book Swap SA" },
       {
         name: "description",
         content: "Chat with fellow students to arrange textbook collections, prices, and swaps.",
       },
-      { property: "og:title", content: "Messages — SecondHand Textbook Swap" },
+      { property: "og:title", content: "Messages — Book Swap SA" },
       {
         property: "og:description",
         content: "Student-to-student messaging for campus textbook arrangements.",

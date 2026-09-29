@@ -13,6 +13,17 @@ import appCss from "../styles.css?url";
 import { AppDataProvider } from "../lib/data/store";
 import { Toaster } from "../components/ui/sonner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { DisplayPreferencesProvider } from "../lib/display-preferences";
+
+const preferenceScript = `(() => {
+  try {
+    const theme = localStorage.getItem('book-swap-sa-theme') || 'system';
+    const dark = theme === 'dark' || (theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    document.documentElement.lang = localStorage.getItem('book-swap-sa-language') || 'en';
+  } catch (_) {}
+})();`;
 
 function NotFoundComponent() {
   return (
@@ -115,6 +126,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: preferenceScript }} />
       </head>
       <body>
         {children}
@@ -129,11 +141,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AppDataProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-        <Toaster position="top-center" richColors />
-      </AppDataProvider>
+      <DisplayPreferencesProvider>
+        <AppDataProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+          <Toaster position="top-center" richColors />
+        </AppDataProvider>
+      </DisplayPreferencesProvider>
     </QueryClientProvider>
   );
 }
