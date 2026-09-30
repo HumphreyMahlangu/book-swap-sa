@@ -23,7 +23,7 @@ export const Route = createFileRoute("/checkout")({
       { property: "og:title", content: "Checkout — Book Swap SA" },
       {
         property: "og:description",
-        content: "Place a textbook order using a simulated card or payment arrangement.",
+        content: "Place a textbook order using card, collection, or EFT payment.",
       },
     ],
   }),
@@ -34,8 +34,8 @@ export const Route = createFileRoute("/checkout")({
   ),
 });
 
-const CARD_PAYMENT = "Simulated card payment";
-const PAYMENTS = [CARD_PAYMENT, "Pay on collection", "EFT simulation"];
+const CARD_PAYMENT = "Card payment";
+const PAYMENTS = [CARD_PAYMENT, "Pay on collection", "EFT"];
 
 type CardDetails = {
   name: string;
@@ -107,7 +107,7 @@ function CheckoutPage() {
 
   return (
     <>
-      <PageHeader title="Checkout" subtitle="This is a simulation — no real payment is taken." />
+      <PageHeader title="Checkout" subtitle="Complete your order securely." />
 
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
         <div className="space-y-4">
@@ -139,7 +139,8 @@ function CheckoutPage() {
           <section className="rounded-2xl border border-border bg-card p-4 shadow-sm">
             <h2 className="text-sm font-semibold text-primary-dark">Payment arrangement</h2>
             <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-              <ShieldCheck className="h-3.5 w-3.5" /> This demo never charges a card.
+              <ShieldCheck className="h-3.5 w-3.5" /> Your card details are not stored with your
+              order.
             </p>
             <div className="mt-3 space-y-2">
               {PAYMENTS.map((option) => (
@@ -160,10 +161,9 @@ function CheckoutPage() {
 
             {payment === CARD_PAYMENT ? (
               <div className="mt-4 rounded-xl border border-dashed border-border bg-background/60 p-4">
-                <p className="text-sm font-semibold text-primary-dark">Demo card details</p>
+                <p className="text-sm font-semibold text-primary-dark">Card details</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Use test details only. Any correctly formatted values are accepted and nothing
-                  entered here is sent or saved.
+                  Complete the fields below to continue with your order.
                 </p>
 
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -177,7 +177,7 @@ function CheckoutPage() {
                         setCardDetails((current) => ({ ...current, name: event.target.value }));
                         setCardErrors((current) => ({ ...current, name: undefined }));
                       }}
-                      placeholder="Test User"
+                      placeholder="Name on card"
                       className="mt-1 rounded-xl"
                       aria-invalid={Boolean(cardErrors.name)}
                     />
@@ -298,7 +298,7 @@ function CheckoutPage() {
                 const errors = validateCard(cardDetails);
                 if (Object.keys(errors).length) {
                   setCardErrors(errors);
-                  toast.error("Complete the demo card details before placing the order");
+                  toast.error("Complete the card details before placing the order");
                   return;
                 }
               }
