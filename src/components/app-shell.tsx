@@ -30,33 +30,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useDisplayPreferences, type ThemePreference } from "@/lib/display-preferences";
+import type { TranslationKey } from "@/lib/translations";
 
 const navItems = [
-  { to: "/home", label: "Home", icon: Home },
-  { to: "/browse", label: "Browse", icon: Search },
-  { to: "/sell", label: "Sell", icon: PlusCircle },
-  { to: "/notifications", label: "Alerts", icon: Bell },
-  { to: "/profile", label: "Profile", icon: UserIcon },
+  { to: "/home", label: "home", icon: Home },
+  { to: "/browse", label: "browse", icon: Search },
+  { to: "/sell", label: "sell", icon: PlusCircle },
+  { to: "/notifications", label: "alerts", icon: Bell },
+  { to: "/profile", label: "profile", icon: UserIcon },
 ] as const;
 
 const desktopNav = [
-  { to: "/home", label: "Home" },
-  { to: "/browse", label: "Browse" },
-  { to: "/sell", label: "Sell" },
-  { to: "/orders", label: "Orders" },
-  { to: "/messages", label: "Messages" },
-  { to: "/swaps", label: "Swaps" },
-  { to: "/profile", label: "Profile" },
-  { to: "/help", label: "Help" },
+  { to: "/home", label: "home" },
+  { to: "/browse", label: "browse" },
+  { to: "/sell", label: "sell" },
+  { to: "/orders", label: "orders" },
+  { to: "/messages", label: "messages" },
+  { to: "/swaps", label: "swaps" },
+  { to: "/profile", label: "profile" },
+  { to: "/help", label: "help" },
 ] as const;
-void MessageSquare; void Repeat2; void BookOpen; void HelpCircle;
+void MessageSquare;
+void Repeat2;
+void BookOpen;
+void HelpCircle;
 
-export function LoadingScreen({ label = "Loading…" }: { label?: string }) {
+export function LoadingScreen({ label }: { label?: string }) {
+  const { t } = useDisplayPreferences();
   return (
     <div className="flex min-h-[50vh] items-center justify-center">
       <div className="flex flex-col items-center gap-3 text-muted-foreground">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-light border-t-primary" />
-        <p className="text-sm">{label}</p>
+        <p className="text-sm">{label ?? t("loading")}</p>
       </div>
     </div>
   );
@@ -102,7 +107,7 @@ export function PageHeader({
 
 function TopBar() {
   const { user, cart, unreadCount, signOut } = useApp();
-  const { theme, setTheme } = useDisplayPreferences();
+  const { theme, setTheme, t } = useDisplayPreferences();
   const navigate = useNavigate();
   const ThemeIcon = theme === "dark" ? Moon : theme === "light" ? Sun : Laptop;
 
@@ -121,7 +126,7 @@ function TopBar() {
               className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition hover:bg-secondary hover:text-primary"
               activeProps={{ className: "!bg-primary !text-primary-foreground" }}
             >
-              {item.label}
+              {t(item.label as TranslationKey)}
             </Link>
           ))}
         </nav>
@@ -129,26 +134,32 @@ function TopBar() {
         <div className="ml-auto flex items-center gap-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Choose appearance">
+              <Button variant="ghost" size="icon" aria-label={t("chooseAppearance")}>
                 <ThemeIcon className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("appearance")}</DropdownMenuLabel>
               <DropdownMenuRadioGroup
                 value={theme}
                 onValueChange={(value) => setTheme(value as ThemePreference)}
               >
-                <DropdownMenuRadioItem value="light"><Sun /> Light</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="dark"><Moon /> Dark</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="system"><Laptop /> Use device</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="light">
+                  <Sun /> {t("light")}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="dark">
+                  <Moon /> {t("dark")}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="system">
+                  <Laptop /> {t("useDevice")}
+                </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
           <Link
             to="/notifications"
             className="relative rounded-lg p-2 text-muted-foreground transition hover:bg-secondary hover:text-primary-dark"
-            aria-label="Notifications"
+            aria-label={t("notifications")}
           >
             <Bell className="h-5 w-5" />
             {unreadCount > 0 ? (
@@ -160,7 +171,7 @@ function TopBar() {
           <Link
             to="/cart"
             className="relative rounded-lg p-2 text-muted-foreground transition hover:bg-secondary hover:text-primary-dark"
-            aria-label="Cart"
+            aria-label={t("cart")}
           >
             <ShoppingCart className="h-5 w-5" />
             {cart.length > 0 ? (
@@ -174,7 +185,7 @@ function TopBar() {
               type="button"
               variant="ghost"
               size="icon"
-              aria-label="Sign out"
+              aria-label={t("signOut")}
               onClick={async () => {
                 await signOut();
                 navigate({ to: "/", replace: true });
@@ -192,6 +203,7 @@ function TopBar() {
 
 function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t } = useDisplayPreferences();
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur pb-[env(safe-area-inset-bottom)] lg:hidden">
       <div className="mx-auto flex max-w-lg items-stretch justify-between px-2">
@@ -200,11 +212,16 @@ function BottomNav() {
           const Icon = item.icon;
           if (item.to === "/sell")
             return (
-              <Link key={item.to} to={item.to} aria-label="Sell a textbook" className="flex flex-1 flex-col items-center gap-1 pb-2 text-[11px] font-semibold text-primary">
+              <Link
+                key={item.to}
+                to={item.to}
+                aria-label={t("sellATextbook")}
+                className="flex flex-1 flex-col items-center gap-1 pb-2 text-[11px] font-semibold text-primary"
+              >
                 <span className="-mt-5 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lift ring-4 ring-background">
                   <Icon className="h-6 w-6" />
                 </span>
-                Sell
+                {t("sell")}
               </Link>
             );
           return (
@@ -217,7 +234,7 @@ function BottomNav() {
               )}
             >
               <Icon className="h-5 w-5" />
-              {item.label}
+              {t(item.label as TranslationKey)}
             </Link>
           );
         })}
@@ -234,19 +251,22 @@ export function AppShell({
   requireAuth?: boolean;
 }) {
   const { ready, user } = useApp();
+  const { t } = useDisplayPreferences();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (requireAuth && ready && !user) navigate({ to: "/", replace: true });
   }, [ready, user, requireAuth, navigate]);
 
-  if (!ready) return <LoadingScreen label="Preparing your marketplace…" />;
-  if (requireAuth && !user) return <LoadingScreen label="Redirecting to sign in…" />;
+  if (!ready) return <LoadingScreen label={t("preparingMarketplace")} />;
+  if (requireAuth && !user) return <LoadingScreen label={t("redirectingToSignIn")} />;
 
   return (
     <div className="min-h-screen bg-background pb-20 lg:pb-0">
       <TopBar />
-      <main className="mx-auto w-full max-w-7xl px-4 py-8 animate-in fade-in duration-200">{children}</main>
+      <main className="mx-auto w-full max-w-7xl px-4 py-8 animate-in fade-in duration-200">
+        {children}
+      </main>
       <BottomNav />
     </div>
   );

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { CAMPUSES } from "@/lib/data/types";
 import { useApp } from "@/lib/data/store";
+import { useDisplayPreferences } from "@/lib/display-preferences";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/signup")({
 
 function SignupPage() {
   const { signUp } = useApp();
+  const { t } = useDisplayPreferences();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     fullName: "",
@@ -51,26 +53,26 @@ function SignupPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-5 py-10">
       <div className="w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-sm">
-        <h1 className="text-xl font-semibold text-primary-dark">Create your student account</h1>
-        <p className="mt-1 text-sm text-muted-foreground">It takes less than a minute.</p>
+        <h1 className="text-xl font-semibold text-primary-dark">{t("createStudentAccount")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("lessThanMinute")}</p>
 
         <form
           className="mt-6 space-y-4"
           onSubmit={async (e) => {
             e.preventDefault();
             if (form.password.length < 6) {
-              setError("Password must be at least 6 characters.");
+              setError(t("passwordTooShort"));
               return;
             }
             if (form.password !== confirmPassword) {
-              setError("Passwords do not match.");
+              setError(t("passwordsDoNotMatch"));
               return;
             }
             setBusy(true);
             setError(null);
             try {
               await signUp(form);
-              toast.success("Account created — welcome!");
+              toast.success(t("accountCreated"));
               navigate({ to: "/home" });
             } catch (err) {
               setError((err as Error).message);
@@ -80,7 +82,7 @@ function SignupPage() {
           }}
         >
           <div className="space-y-1.5">
-            <Label htmlFor="fullName">Full name</Label>
+            <Label htmlFor="fullName">{t("fullName")}</Label>
             <Input
               id="fullName"
               value={form.fullName}
@@ -89,7 +91,7 @@ function SignupPage() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="studentNumber">Student number</Label>
+            <Label htmlFor="studentNumber">{t("studentNumber")}</Label>
             <Input
               id="studentNumber"
               value={form.studentNumber}
@@ -98,7 +100,7 @@ function SignupPage() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="email">Student email</Label>
+            <Label htmlFor="email">{t("studentEmail")}</Label>
             <Input
               id="email"
               type="email"
@@ -108,7 +110,7 @@ function SignupPage() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="institution">Institution</Label>
+            <Label htmlFor="institution">{t("institution")}</Label>
             <Input
               id="institution"
               value={form.institution}
@@ -117,7 +119,7 @@ function SignupPage() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label>Campus</Label>
+            <Label>{t("campus")}</Label>
             <Select value={form.campus} onValueChange={(v) => set("campus", v)}>
               <SelectTrigger>
                 <SelectValue />
@@ -132,7 +134,7 @@ function SignupPage() {
             </Select>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("password")}</Label>
             <PasswordInput
               id="password"
               autoComplete="new-password"
@@ -142,7 +144,7 @@ function SignupPage() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="confirmPassword">Confirm password</Label>
+            <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
             <PasswordInput
               id="confirmPassword"
               autoComplete="new-password"
@@ -160,14 +162,14 @@ function SignupPage() {
             </p>
           ) : null}
           <Button type="submit" className="w-full rounded-xl" disabled={busy}>
-            {busy ? "Creating account…" : "Create account"}
+            {busy ? t("creatingAccount") : t("createAccount")}
           </Button>
         </form>
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          Already registered?{" "}
+          {t("alreadyRegistered")}{" "}
           <Link to="/login" className="font-medium text-primary underline-offset-2 hover:underline">
-            Sign in
+            {t("signIn")}
           </Link>
         </p>
       </div>

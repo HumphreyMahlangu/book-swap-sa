@@ -2,6 +2,7 @@ import * as React from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
+import { useDisplayPreferences } from "@/lib/display-preferences";
 import { cn } from "@/lib/utils";
 
 const PasswordInput = React.forwardRef<
@@ -9,6 +10,7 @@ const PasswordInput = React.forwardRef<
   Omit<React.ComponentProps<typeof Input>, "type">
 >(({ className, disabled, ...props }, ref) => {
   const [visible, setVisible] = React.useState(false);
+  const { t } = useDisplayPreferences();
   const Icon = visible ? EyeOff : Eye;
 
   return (
@@ -24,7 +26,7 @@ const PasswordInput = React.forwardRef<
         type="button"
         className="absolute inset-y-0 right-0 flex w-10 items-center justify-center rounded-r-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         onClick={() => setVisible((current) => !current)}
-        aria-label={visible ? "Hide password" : "Show password"}
+        aria-label={visible ? t("hidePassword") : t("showPassword")}
         aria-pressed={visible}
         disabled={disabled}
       >

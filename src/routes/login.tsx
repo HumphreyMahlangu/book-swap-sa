@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/password-input";
 import { useApp } from "@/lib/data/store";
+import { useDisplayPreferences } from "@/lib/display-preferences";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -28,6 +29,7 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const { signIn } = useApp();
+  const { t } = useDisplayPreferences();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,8 +39,8 @@ function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-5 py-10">
       <div className="w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-sm">
-        <h1 className="text-xl font-semibold text-primary-dark">Welcome back</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Sign in with your student email.</p>
+        <h1 className="text-xl font-semibold text-primary-dark">{t("welcomeBack")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("signInWithStudentEmail")}</p>
 
         <form
           className="mt-6 space-y-4"
@@ -48,7 +50,7 @@ function LoginPage() {
             setError(null);
             try {
               await signIn(email, password);
-              toast.success("Signed in");
+              toast.success(t("signedIn"));
               navigate({ to: "/home" });
             } catch (err) {
               setError((err as Error).message);
@@ -58,7 +60,7 @@ function LoginPage() {
           }}
         >
           <div className="space-y-1.5">
-            <Label htmlFor="email">Student email</Label>
+            <Label htmlFor="email">{t("studentEmail")}</Label>
             <Input
               id="email"
               type="email"
@@ -69,12 +71,12 @@ function LoginPage() {
           </div>
           <div className="space-y-1.5">
             <div className="flex items-center justify-between gap-3">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("password")}</Label>
               <Link
                 to="/forgot-password"
                 className="text-xs font-medium text-primary underline-offset-2 hover:underline"
               >
-                Forgot password?
+                {t("forgotPassword")}
               </Link>
             </div>
             <PasswordInput
@@ -94,17 +96,17 @@ function LoginPage() {
             </p>
           ) : null}
           <Button type="submit" className="w-full rounded-xl" disabled={busy}>
-            {busy ? "Signing in…" : "Sign in"}
+            {busy ? t("signingIn") : t("signIn")}
           </Button>
         </form>
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          New here?{" "}
+          {t("newHere")}{" "}
           <Link
             to="/signup"
             className="font-medium text-primary underline-offset-2 hover:underline"
           >
-            Create an account
+            {t("createAnAccount")}
           </Link>
         </p>
       </div>

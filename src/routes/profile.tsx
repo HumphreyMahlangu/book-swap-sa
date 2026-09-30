@@ -73,7 +73,7 @@ export const Route = createFileRoute("/profile")({
 
 function ProfilePage() {
   const { user, data, sellerStats, updateProfile, updatePrefs, signOut } = useApp();
-  const { theme, language, setTheme, setLanguage } = useDisplayPreferences();
+  const { theme, language, setTheme, setLanguage, t } = useDisplayPreferences();
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -101,10 +101,10 @@ function ProfilePage() {
         campus,
         bio,
       });
-      toast.success("Profile updated successfully");
+      toast.success(t("profileUpdated"));
       setIsEditing(false);
     } catch {
-      toast.error("Failed to update profile");
+      toast.error(t("profileUpdateFailed"));
     } finally {
       setSaving(false);
     }
@@ -116,9 +116,9 @@ function ProfilePage() {
   ) => {
     try {
       await updatePrefs({ [key]: value });
-      toast.success("Preference saved");
+      toast.success(t("preferenceSaved"));
     } catch {
-      toast.error("Failed to update preferences");
+      toast.error(t("preferenceSaveFailed"));
     }
   };
 
@@ -132,8 +132,8 @@ function ProfilePage() {
   return (
     <>
       <PageHeader
-        title="Student Profile"
-        subtitle="Manage your campus account details, reputation, and preferences."
+        title={t("studentProfile")}
+        subtitle={t("profileSubtitle")}
         action={
           <Button
             variant="outline"
@@ -147,7 +147,7 @@ function ProfilePage() {
               setIsEditing(true);
             }}
           >
-            <Pencil className="mr-2 h-4 w-4" /> Edit profile
+            <Pencil className="mr-2 h-4 w-4" /> {t("editProfile")}
           </Button>
         }
       />
@@ -165,7 +165,7 @@ function ProfilePage() {
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-xl font-bold text-primary-dark">{user.fullName}</h2>
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-600">
-                    <ShieldCheck className="h-3.5 w-3.5" /> Verified Student
+                    <ShieldCheck className="h-3.5 w-3.5" /> {t("verifiedStudent")}
                   </span>
                 </div>
 
@@ -177,8 +177,8 @@ function ProfilePage() {
                     <MapPin className="h-3.5 w-3.5 text-accent" /> {user.campus}
                   </span>
                   <span className="flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5" /> Joined{" "}
-                    {new Date(user.memberSince).toLocaleDateString("en-ZA", {
+                    <Calendar className="h-3.5 w-3.5" /> {t("joined")}{" "}
+                    {new Date(user.memberSince).toLocaleDateString(`${language}-ZA`, {
                       month: "short",
                       year: "numeric",
                     })}
@@ -196,41 +196,41 @@ function ProfilePage() {
             {/* Quick Stats Banner */}
             <div className="mt-6 grid grid-cols-2 gap-3 border-t border-border pt-5 sm:grid-cols-4">
               <div className="rounded-xl bg-background/60 p-3 text-center border border-border/70">
-                <p className="text-xs text-muted-foreground">Active Books</p>
+                <p className="text-xs text-muted-foreground">{t("activeBooks")}</p>
                 <p className="mt-1 text-xl font-bold text-primary-dark">{stats.active}</p>
                 <Link
                   to="/listings"
                   className="mt-1 text-[11px] text-primary hover:underline font-medium block"
                 >
-                  View listings →
+                  {t("viewListings")}
                 </Link>
               </div>
 
               <div className="rounded-xl bg-background/60 p-3 text-center border border-border/70">
-                <p className="text-xs text-muted-foreground">Textbooks Sold</p>
+                <p className="text-xs text-muted-foreground">{t("textbooksSold")}</p>
                 <p className="mt-1 text-xl font-bold text-primary-dark">{stats.sold}</p>
-                <span className="text-[11px] text-muted-foreground block">Campus sales</span>
+                <span className="text-[11px] text-muted-foreground block">{t("campusSales")}</span>
               </div>
 
               <div className="rounded-xl bg-background/60 p-3 text-center border border-border/70">
-                <p className="text-xs text-muted-foreground">Swaps Made</p>
+                <p className="text-xs text-muted-foreground">{t("swapsMade")}</p>
                 <p className="mt-1 text-xl font-bold text-primary-dark">{stats.swapped}</p>
                 <Link
                   to="/swaps"
                   className="mt-1 text-[11px] text-primary hover:underline font-medium block"
                 >
-                  View swaps →
+                  {t("viewSwaps")}
                 </Link>
               </div>
 
               <div className="rounded-xl bg-background/60 p-3 text-center border border-border/70">
-                <p className="text-xs text-muted-foreground">Seller Rating</p>
+                <p className="text-xs text-muted-foreground">{t("sellerRating")}</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-xl font-bold text-primary-dark">
                   <Star className="h-4 w-4 fill-accent text-accent" />
-                  {stats.rating ? stats.rating.toFixed(1) : "New"}
+                  {stats.rating ? stats.rating.toFixed(1) : t("new")}
                 </p>
                 <span className="text-[11px] text-muted-foreground block">
-                  {stats.reviewCount} review{stats.reviewCount === 1 ? "" : "s"}
+                  {t("reviewsCount", { count: stats.reviewCount })}
                 </span>
               </div>
             </div>
@@ -241,23 +241,18 @@ function ProfilePage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-base font-bold text-primary-dark">
-                  Reviews from Fellow Students
+                  {t("reviewsFromStudents")}
                 </h3>
-                <p className="text-xs text-muted-foreground">
-                  Feedback left after textbook purchases and collections.
-                </p>
+                <p className="text-xs text-muted-foreground">{t("reviewsDescription")}</p>
               </div>
               <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-primary-dark">
                 <Star className="h-3.5 w-3.5 fill-accent text-accent" />
-                {stats.rating ? `${stats.rating.toFixed(1)} / 5.0` : "No ratings yet"}
+                {stats.rating ? `${stats.rating.toFixed(1)} / 5.0` : t("noRatingsYet")}
               </span>
             </div>
 
             {myReviews.length === 0 ? (
-              <p className="mt-4 text-xs italic text-muted-foreground">
-                No reviews yet. Complete your first textbook sale or swap to start building your
-                campus reputation.
-              </p>
+              <p className="mt-4 text-xs italic text-muted-foreground">{t("noReviewsYet")}</p>
             ) : (
               <div className="mt-4 space-y-3">
                 {myReviews.map((rev) => (
@@ -281,7 +276,7 @@ function ProfilePage() {
                     </div>
                     <p className="mt-1.5 text-foreground leading-relaxed">"{rev.comment}"</p>
                     <p className="mt-1 text-[10px] text-muted-foreground">
-                      {new Date(rev.at).toLocaleDateString("en-ZA", {
+                      {new Date(rev.at).toLocaleDateString(`${language}-ZA`, {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
@@ -300,20 +295,18 @@ function ProfilePage() {
             <div className="flex items-center gap-2">
               <Sun className="h-4 w-4 text-primary dark:hidden" />
               <Moon className="hidden h-4 w-4 text-gold dark:block" />
-              <h3 className="text-sm font-semibold text-primary-dark">Display &amp; Language</h3>
+              <h3 className="text-sm font-semibold text-primary-dark">{t("displayAndLanguage")}</h3>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Choose how Book Swap SA looks and your preferred language.
-            </p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("displayDescription")}</p>
 
             <div className="mt-4 space-y-4">
               <fieldset>
-                <legend className="text-xs font-medium text-foreground">Appearance</legend>
+                <legend className="text-xs font-medium text-foreground">{t("appearance")}</legend>
                 <div className="mt-2 grid grid-cols-3 gap-2">
                   {[
-                    { value: "light" as const, label: "Light", icon: Sun },
-                    { value: "dark" as const, label: "Dark", icon: Moon },
-                    { value: "system" as const, label: "Device", icon: Laptop },
+                    { value: "light" as const, label: t("light"), icon: Sun },
+                    { value: "dark" as const, label: t("dark"), icon: Moon },
+                    { value: "system" as const, label: t("device"), icon: Laptop },
                   ].map((option) => {
                     const Icon = option.icon;
                     const selected = theme === option.value;
@@ -336,9 +329,12 @@ function ProfilePage() {
 
               <div>
                 <Label htmlFor="language" className="flex items-center gap-1.5 text-xs font-medium">
-                  <Languages className="h-3.5 w-3.5" /> Preferred language
+                  <Languages className="h-3.5 w-3.5" /> {t("preferredLanguage")}
                 </Label>
-                <Select value={language} onValueChange={(value) => setLanguage(value as LanguageCode)}>
+                <Select
+                  value={language}
+                  onValueChange={(value) => setLanguage(value as LanguageCode)}
+                >
                   <SelectTrigger id="language" className="mt-2 rounded-lg">
                     <SelectValue />
                   </SelectTrigger>
@@ -350,6 +346,7 @@ function ProfilePage() {
                     ))}
                   </SelectContent>
                 </Select>
+                <p className="mt-2 text-[11px] text-muted-foreground">{t("translationReady")}</p>
               </div>
             </div>
           </div>
@@ -358,33 +355,31 @@ function ProfilePage() {
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center gap-2">
               <Bell className="h-4 w-4 text-primary" />
-              <h3 className="text-sm font-semibold text-primary-dark">Notification Alerts</h3>
+              <h3 className="text-sm font-semibold text-primary-dark">{t("notificationAlerts")}</h3>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Choose what notifications you want to receive on campus.
-            </p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("notificationDescription")}</p>
 
             <div className="mt-4 space-y-3">
               {[
                 {
                   key: "orders" as const,
-                  label: "Textbook orders",
-                  desc: "Updates when textbooks are bought or collected",
+                  label: t("textbookOrders"),
+                  desc: t("textbookOrderUpdates"),
                 },
                 {
                   key: "messages" as const,
-                  label: "Chat messages",
-                  desc: "Direct messages from students on campus",
+                  label: t("chatMessages"),
+                  desc: t("campusDirectMessages"),
                 },
                 {
                   key: "swaps" as const,
-                  label: "Swap proposals",
-                  desc: "When someone wants to trade textbooks",
+                  label: t("swapProposals"),
+                  desc: t("tradeTextbooks"),
                 },
                 {
                   key: "marketing" as const,
-                  label: "Campus announcements",
-                  desc: "Exam season tips and book drives",
+                  label: t("campusAnnouncements"),
+                  desc: t("examTips"),
                 },
               ].map((item) => (
                 <div key={item.key} className="flex items-center justify-between gap-3 pt-1">
@@ -403,17 +398,17 @@ function ProfilePage() {
 
           {/* Student Account Details */}
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm text-xs space-y-3">
-            <h3 className="text-sm font-semibold text-primary-dark">Account Details</h3>
+            <h3 className="text-sm font-semibold text-primary-dark">{t("accountDetails")}</h3>
             <div>
-              <p className="text-muted-foreground">Student Email</p>
+              <p className="text-muted-foreground">{t("studentEmailTitle")}</p>
               <p className="font-medium text-foreground">{user.email}</p>
             </div>
             <div>
-              <p className="text-muted-foreground">Student Number</p>
+              <p className="text-muted-foreground">{t("studentNumberTitle")}</p>
               <p className="font-medium text-foreground">{user.studentNumber}</p>
             </div>
             <div>
-              <p className="text-muted-foreground">Primary Campus</p>
+              <p className="text-muted-foreground">{t("primaryCampus")}</p>
               <p className="font-medium text-foreground">{user.campus}</p>
             </div>
 
@@ -426,7 +421,7 @@ function ProfilePage() {
                   navigate({ to: "/" });
                 }}
               >
-                Sign out of Book Swap SA
+                {t("signOutOfApp")}
               </Button>
             </div>
           </div>
@@ -438,17 +433,15 @@ function ProfilePage() {
         <DialogContent className="sm:max-w-md rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-primary-dark">
-              Edit Student Profile
+              {t("editStudentProfile")}
             </DialogTitle>
-            <DialogDescription>
-              Keep your campus and contact details up to date for smooth textbook handovers.
-            </DialogDescription>
+            <DialogDescription>{t("profileDialogDescription")}</DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSaveProfile} className="space-y-4 pt-2">
             <div>
               <Label htmlFor="full-name" className="text-xs font-semibold text-muted-foreground">
-                Full Name
+                {t("fullNameTitle")}
               </Label>
               <Input
                 id="full-name"
@@ -464,7 +457,7 @@ function ProfilePage() {
                 htmlFor="student-number"
                 className="text-xs font-semibold text-muted-foreground"
               >
-                Student Number
+                {t("studentNumberTitle")}
               </Label>
               <Input
                 id="student-number"
@@ -477,7 +470,7 @@ function ProfilePage() {
 
             <div>
               <Label htmlFor="institution" className="text-xs font-semibold text-muted-foreground">
-                Institution / University
+                {t("institutionUniversity")}
               </Label>
               <Input
                 id="institution"
@@ -490,11 +483,11 @@ function ProfilePage() {
 
             <div>
               <Label htmlFor="campus" className="text-xs font-semibold text-muted-foreground">
-                Campus Location
+                {t("campusLocation")}
               </Label>
               <Select value={campus} onValueChange={(val) => setCampus(val)}>
                 <SelectTrigger id="campus" className="mt-1 rounded-xl">
-                  <SelectValue placeholder="Select campus..." />
+                  <SelectValue placeholder={t("selectCampus")} />
                 </SelectTrigger>
                 <SelectContent>
                   {CAMPUSES.map((c) => (
@@ -508,13 +501,13 @@ function ProfilePage() {
 
             <div>
               <Label htmlFor="bio" className="text-xs font-semibold text-muted-foreground">
-                Bio / Studies Note
+                {t("bioStudiesNote")}
               </Label>
               <Textarea
                 id="bio"
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                placeholder="e.g. 2nd Year Mechanical Engineering, willing to meet around student centre."
+                placeholder={t("bioPlaceholder")}
                 className="mt-1 rounded-xl"
                 rows={3}
               />
@@ -527,10 +520,10 @@ function ProfilePage() {
                 className="rounded-xl"
                 onClick={() => setIsEditing(false)}
               >
-                Cancel
+                {t("cancel")}
               </Button>
               <Button type="submit" className="rounded-xl" disabled={saving}>
-                {saving ? "Saving..." : "Save Changes"}
+                {saving ? t("saving") : t("saveChanges")}
               </Button>
             </DialogFooter>
           </form>

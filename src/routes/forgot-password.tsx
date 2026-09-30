@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useApp } from "@/lib/data/store";
+import { useDisplayPreferences } from "@/lib/display-preferences";
 
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/forgot-password")({
 
 function ForgotPasswordPage() {
   const { resetPassword } = useApp();
+  const { t } = useDisplayPreferences();
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
@@ -32,24 +34,21 @@ function ForgotPasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-5 py-10">
       <div className="w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-sm">
         <h1 className="text-xl font-semibold text-primary-dark">
-          {sent ? "Check your email" : "Reset your password"}
+          {sent ? t("checkYourEmail") : t("resetYourPassword")}
         </h1>
 
         {sent ? (
           <div className="mt-4 space-y-6">
             <p className="text-sm leading-6 text-muted-foreground">
-              If an account exists for <span className="font-medium text-foreground">{email}</span>,
-              Firebase has sent a password reset link. Check your inbox and spam folder.
+              {t("resetEmailSent", { email })}
             </p>
             <Button asChild className="w-full rounded-xl">
-              <Link to="/login">Return to sign in</Link>
+              <Link to="/login">{t("returnToSignIn")}</Link>
             </Button>
           </div>
         ) : (
           <>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Enter your student email and we’ll send you a secure reset link.
-            </p>
+            <p className="mt-1 text-sm text-muted-foreground">{t("enterResetEmail")}</p>
 
             <form
               className="mt-6 space-y-4"
@@ -61,17 +60,17 @@ function ForgotPasswordPage() {
                   await resetPassword(email);
                   setEmail(email.trim().toLowerCase());
                   setSent(true);
-                  toast.success("Password reset email requested");
+                  toast.success(t("resetEmailRequested"));
                 } catch (err) {
                   console.error(err);
-                  setError("We couldn’t send the reset email. Please try again in a moment.");
+                  setError(t("resetEmailFailed"));
                 } finally {
                   setBusy(false);
                 }
               }}
             >
               <div className="space-y-1.5">
-                <Label htmlFor="email">Student email</Label>
+                <Label htmlFor="email">{t("studentEmail")}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -93,17 +92,17 @@ function ForgotPasswordPage() {
               ) : null}
 
               <Button type="submit" className="w-full rounded-xl" disabled={busy}>
-                {busy ? "Sending…" : "Send reset link"}
+                {busy ? t("sending") : t("sendResetLink")}
               </Button>
             </form>
 
             <p className="mt-6 text-center text-sm text-muted-foreground">
-              Remembered your password?{" "}
+              {t("rememberedPassword")}{" "}
               <Link
                 to="/login"
                 className="font-medium text-primary underline-offset-2 hover:underline"
               >
-                Sign in
+                {t("signIn")}
               </Link>
             </p>
           </>

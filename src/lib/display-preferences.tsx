@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
+import { translate, type TranslationKey, type TranslationVariables } from "@/lib/translations";
+
 export type ThemePreference = "light" | "dark" | "system";
 
 export const SOUTH_AFRICAN_LANGUAGES = [
@@ -8,13 +10,6 @@ export const SOUTH_AFRICAN_LANGUAGES = [
   { code: "nr", label: "isiNdebele" },
   { code: "xh", label: "isiXhosa" },
   { code: "zu", label: "isiZulu" },
-  { code: "nso", label: "Sepedi" },
-  { code: "st", label: "Sesotho" },
-  { code: "tn", label: "Setswana" },
-  { code: "ss", label: "siSwati" },
-  { code: "ve", label: "Tshivenda" },
-  { code: "ts", label: "Xitsonga" },
-  { code: "sfs", label: "South African Sign Language" },
 ] as const;
 
 export type LanguageCode = (typeof SOUTH_AFRICAN_LANGUAGES)[number]["code"];
@@ -24,6 +19,7 @@ interface DisplayPreferencesValue {
   language: LanguageCode;
   setTheme: (theme: ThemePreference) => void;
   setLanguage: (language: LanguageCode) => void;
+  t: (key: TranslationKey, variables?: TranslationVariables) => string;
 }
 
 const THEME_KEY = "book-swap-sa-theme";
@@ -78,8 +74,11 @@ export function DisplayPreferencesProvider({ children }: { children: ReactNode }
     document.documentElement.lang = nextLanguage;
   };
 
+  const t = (key: TranslationKey, variables?: TranslationVariables) =>
+    translate(language, key, variables);
+
   return (
-    <DisplayPreferencesContext.Provider value={{ theme, language, setTheme, setLanguage }}>
+    <DisplayPreferencesContext.Provider value={{ theme, language, setTheme, setLanguage, t }}>
       {children}
     </DisplayPreferencesContext.Provider>
   );
@@ -87,6 +86,7 @@ export function DisplayPreferencesProvider({ children }: { children: ReactNode }
 
 export function useDisplayPreferences() {
   const context = useContext(DisplayPreferencesContext);
-  if (!context) throw new Error("useDisplayPreferences must be used inside DisplayPreferencesProvider");
+  if (!context)
+    throw new Error("useDisplayPreferences must be used inside DisplayPreferencesProvider");
   return context;
 }

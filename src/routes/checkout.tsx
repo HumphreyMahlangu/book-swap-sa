@@ -88,6 +88,14 @@ function CheckoutPage() {
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
 
+  const clearCardError = (field: keyof CardDetails) => {
+    setCardErrors((current) => {
+      const next = { ...current };
+      delete next[field];
+      return next;
+    });
+  };
+
   const items = cart.map((id) => listingById(id)).filter(Boolean);
   const total = items.reduce((sum, l) => sum + (l?.price ?? 0), 0);
 
@@ -175,7 +183,7 @@ function CheckoutPage() {
                       value={cardDetails.name}
                       onChange={(event) => {
                         setCardDetails((current) => ({ ...current, name: event.target.value }));
-                        setCardErrors((current) => ({ ...current, name: undefined }));
+                        clearCardError("name");
                       }}
                       placeholder="Name on card"
                       className="mt-1 rounded-xl"
@@ -198,7 +206,7 @@ function CheckoutPage() {
                           ...current,
                           number: formatCardNumber(event.target.value),
                         }));
-                        setCardErrors((current) => ({ ...current, number: undefined }));
+                        clearCardError("number");
                       }}
                       placeholder="4242 4242 4242 4242"
                       className="mt-1 rounded-xl"
@@ -221,7 +229,7 @@ function CheckoutPage() {
                           ...current,
                           expiry: formatExpiry(event.target.value),
                         }));
-                        setCardErrors((current) => ({ ...current, expiry: undefined }));
+                        clearCardError("expiry");
                       }}
                       placeholder="12/30"
                       className="mt-1 rounded-xl"
@@ -245,7 +253,7 @@ function CheckoutPage() {
                           ...current,
                           cvv: event.target.value.replace(/\D/g, "").slice(0, 4),
                         }));
-                        setCardErrors((current) => ({ ...current, cvv: undefined }));
+                        clearCardError("cvv");
                       }}
                       placeholder="123"
                       className="mt-1 rounded-xl"
